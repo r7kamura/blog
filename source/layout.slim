@@ -22,14 +22,25 @@ html
             p.header-text-description
               = config.blog_description
     .main
-      .main-inner
+      .main-inner class="#{is_blog_article? && 'main-inner-single-article'}"
         - if is_blog_article?
           article.main-article
-            h1.main-article-title= current_article.title
-            .date= current_article.date.strftime("%Y-%m-%d")
+            .main-article-header
+              h1.main-article-header-title= current_article.title
+              .main-article-header-date= current_article.date.strftime("%Y-%m-%d")
             = yield
         - else
           = yield
 
     footer.footer
       .footer-inner
+        p.footer-copyright
+          ' Copyright &copy; 2013 by
+          = link_to "@r7kamura", "http://twitter.com/r7kamura", target: "_blank"
+        p.footer-powers
+          ' Powered by
+          = link_to "Github", "https://github.com/r7kamura/r7kamura.github.io"
+          '  &
+          = link_to "Travis CI", "https://travis-ci.org/r7kamura/r7kamura.github.io"
+          '  &
+          = link_to "Middleman", "http://middlemanapp.com/"

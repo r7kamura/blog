@@ -1,13 +1,13 @@
 @charset "utf-8";
 
 @mixin inner {
-  padding: 40px;
-  width: 860px;
+  padding: 60px;
+  width: 800px;
   margin: 0 auto;
 }
 
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Avenir Next', 'Hiragino Kaku Gothic ProN', Meiryo, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: #F3F1E8;
 }
 
@@ -39,10 +39,11 @@ h2 {
 
 .header-text {
   float: left;
-  padding: 20px;
+  padding: 30px 20px;
 }
 
 .header-text-title {
+  line-height: 1;
   margin: 0;
 }
 
@@ -52,6 +53,10 @@ h2 {
 
 .main-inner {
   @include inner;
+}
+
+.main-inner-single-article {
+  background: white;
 }
 
 .main-articles-element-table {
@@ -94,6 +99,49 @@ h2 {
   text-align: center;
 }
 
+.main-article-header {
+  margin-bottom: 4em;
+}
+
+.main-article-header-title {
+  text-align: center;
+}
+
+.main-article-header-date {
+  text-align: center;
+}
+
+.main-article {
+  line-height: 1.75em;
+}
+
+.main-article h2 {
+  margin: 2em 0 .2em;
+  font-size: 1.2em;
+}
+
+.main-article p {
+  margin: 0;
+}
+
+.main-article p+p {
+  margin: 2em 0;
+}
+
 .footer-inner {
   @include inner;
+  text-align: center;
+}
+
+.footer a {
+  text-decoration: none;
+}
+
+.footer-powers,
+.footer-copyright {
+  margin: 0;
+}
+
+.footer-powers {
+  font-size: 80%;
 }
