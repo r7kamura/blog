@@ -7,4 +7,5 @@ task :publish do
   sh "git commit -m 'Update'"
   sh "git push"
   sh "cd .."
+  sh "git checkout source"
 end
