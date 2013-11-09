@@ -13,4 +13,4 @@ after_success:
     - git init
     - git add --all
     - git commit -m "Update from Travis CI"
-    - 'git push https://$GITHUB_TOKEN@github.com/r7kamura/r7kamura.github.io.git -f'
+    - 'git push https://$GITHUB_TOKEN@github.com/r7kamura/r7kamura.github.io.git master -f'
