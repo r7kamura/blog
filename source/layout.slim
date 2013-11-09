@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    meta charset="utf-8"
+    meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"
+    title
+      == config.blog_title
+      == " - " + current_article.title unless current_article.nil?
+
+  body
+    #main
+      == yield
+
+    .tags
+      - blog.tags.each do |tag, articles|
+        = link_to tag, tag_path(tag)
+
+    -# blog.articles
+    -# blog.tags
