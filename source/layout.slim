@@ -4,16 +4,32 @@ html
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"
     title
-      == config.blog_title
-      == " - " + current_article.title unless current_article.nil?
+      = config.blog_title
+      = " - " + current_article.title unless current_article.nil?
+    = stylesheet_link_tag :all, media: :all
+    = stylesheet_link_tag :normalize, media: :all
+    = javascript_include_tag :all
 
   body
-    #main
-      == yield
+    header.header
+      .header-inner
+        = link_to "/" do
+          .header-image
+            = image_tag "r7kamura.jpg", width: "100", height: "100", class: "header-image-element"
+          .header-text
+            h1.header-text-title
+              = config.blog_title
+            p.header-text-description
+              = config.blog_description
+    .main
+      .main-inner
+        - if is_blog_article?
+          article.main-article
+            h1.main-article-title= current_article.title
+            .date= current_article.date.strftime("%Y-%m-%d")
+            = yield
+        - else
+          = yield
 
-    .tags
-      - blog.tags.each do |tag, articles|
-        = link_to tag, tag_path(tag)
-
-    -# blog.articles
-    -# blog.tags
+    footer.footer
+      .footer-inner
