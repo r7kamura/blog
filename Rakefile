@@ -1,4 +1,11 @@
-desc "Build and publish"
+task default: [:build, :publish]
+
+desc "Build"
+task :build do
+  sh "bundle exec middleman build --clean"
+end
+
+desc "Publish"
 task :publish do
   sh "cd build"
   sh "git add --all"
