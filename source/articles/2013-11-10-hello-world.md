@@ -4,13 +4,37 @@ date: 2013-11-10
 tags: diary
 ---
 
-書く場所の無い微妙に技術的な知識が増えてきたので、
-[r7kamura.hatenablog.com](http://r7kamura.hatenablog.com) とは別に新しくブログを作った。
-住み分け方は特に考えていないけれど、多分このブログは飽きてその内更新しなくなると思う。
-ブログの選定にあたっては、[tumblr](http://tumblr.com)、
+技術関係の小ネタを書くために新しくブログを作った。
+
+## ブログどれ使うか問題
+[tumblr](http://tumblr.com)、
 [medium](https://medium.com/)、
-[scriptogr.am](http://scriptogr.am)を考えた後、
-今回は[Middleman](http://middlemanapp.com/)を利用することにした。
-仕組み的には、DropboxとGitHubとTravis-CIを使っている。
-編集後にGitHubにPushするのが若干面倒なので、
-代わりにVPSで動かしているプログラムがDropboxを監視してGitHubにpushしている。
+[hatenablog](http://hatenablog.com)、
+[scriptogr.am](http://scriptogr.am) などを検討した後、
+今回は[Middleman](http://middlemanapp.com/)とGitHub Pagesを利用することにした。
+tumblrは、手軽に使えて、無料で広告が出ず、HTMLテンプレートは全て自分で編集できるが、記事編集画面が少し使いづらい。
+mediumはオシャレだけど、表参道みたいな息苦しさがある。
+はてなブログは、はてなスターや通知、編集画面が便利で最高だけど、
+無料だと広告が出るし、HTMLテンプレート全体を自由に編集できない。
+scriptogr.amはDropboxに記事を置くと公開されるという仕組みが面白いけれど、まだBeta版品質という感じがする。
+
+## Middlemanについて
+Middlemanは初期設定と学習に少し手間が掛かるけど、数時間程度だし、結局自分が好きなように設定出来るのが良い。
+データが全て手元にあるということに安心感がある。あと静的ファイルを返すだけなので応答速度は速い。
+使う前に想像していたほど仕様は大きくなかったので、もし根本的に気に入らない所があれば書き直せる。
+Webアプリでも部分的に静的ファイルに置き換えられる箇所は多いので、そういうところに適用出来ると良さそう。
+
+## 公開作業の単純化
+ブログは書きたいときにすぐ書けるようにしておかないと途端に腐るので、
+GitHubとTravisCIとDropboxを使って、エディタで記事を書いてフォルダに入れるだけで公開されるようにした。
+GitHubでは、username.github.ioレポジトリのmasterブランチにファイルを置くと、
+http://username.github.io からファイルを配信してくれる。
+Markdownで書いた記事をMiddlemanでHTMLに変換し、これをmasterブランチにpushする。
+Middlemanにはブログを作るための拡張機能があるので、これを使えば簡単に雛形を生成できる。
+静的ファイルの生成を自分で行うのは面倒なので、これはTravis-CIに任せる。
+GitHubのPersonal Access Tokenを利用すれば、Travis-CIからGitHubにpushできる。
+不具合があってbuildにfailするとTravisがメールを投げてくれるので、所謂一般的なCIの役割も兼ねていて便利。
+記事編集のたびにGitHubにPushするのも面倒なので、レポジトリをDropbox内に置き、
+VPSで動かしているプログラムにDropboxを監視させ、代わりにGitHubにPushさせている。
+この辺VPSとか使わずにもう少し便利な仕組みがあると良いと思う。
+このブログのソースコードは[ここ](https://github.com/r7kamura/r7kamura.github.io/)に置いてある。
