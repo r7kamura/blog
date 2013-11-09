@@ -1,7 +1,7 @@
 require "slim"
 
 set :blog_title, "r7kamura blog"
-set :blog_description, "marking down about tech and journal."
+set :blog_description, "marking down about tech."
 set :layout_engine, :slim
 
 page "/feed.xml", layout: false
