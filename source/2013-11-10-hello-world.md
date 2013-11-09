@@ -1,6 +1,6 @@
 ---
 title: Hello world
-date: 2012-01-01
+date: 2013-11-10
 tags: diary
 ---
 
