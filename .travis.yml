@@ -7,13 +7,10 @@ env:
     - GIT_AUTHOR_EMAIL=r7kamura@gmail.com
 before_script:
     - git clone --quiet https://github.com/r7kamura/r7kamura.git build
-    - pushd build
-    - git checkout -b gh-pages
-    - popd
 script:
     - bundle exec middleman build
 after_success:
     - cd build
     - git add -A
     - git commit -m 'Update'
-    - '[ "$TRAVIS_BRANCH" == "master" ] && [ $GITHUB_TOKEN ] && git push --quiet https://$GITHUB_TOKEN@github.com/r7kamura/r7kamura.git gh-pages 2> /dev/null'
+    - 'git push --quiet https://$GITHUB_TOKEN@github.com/r7kamura/r7kamura.git 2> /dev/null'
