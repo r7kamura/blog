@@ -4,8 +4,8 @@ html
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"
     title
+      = current_article.title + " - " unless current_article.nil?
       = config.blog_title
-      = " - " + current_article.title unless current_article.nil?
     = stylesheet_link_tag :all, media: :all
     = stylesheet_link_tag :normalize, media: :all
     = javascript_include_tag :all
