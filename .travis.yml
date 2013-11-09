@@ -6,13 +6,11 @@ env:
     - GIT_AUTHOR_NAME=r7kamura
     - GIT_AUTHOR_EMAIL=r7kamura@gmail.com
     - secure=RATB5kfl+Gt/47PoHJ8BFF5rx6LQv4SOgbhbG7uraxlrOzCN2K8xlgHy3xY+taNyUM0ibbAiIayb0zlqt6PNVeLypXpKUtsTACJXL9UonbjH1Z3wYnG7ycmJUiNN6x1aoc/pqrJp4wiDzSckJkOdLzYPPB7sWAeDiC0ywPpL7Oc=
-before_script:
-    - git clone --quiet https://github.com/r7kamura/r7kamura.github.io.git build
 script:
     - bundle exec middleman build
 after_success:
     - cd build
     - git init
     - git add --all
-    - git commit -m "Update"
-    - 'git push --quiet https://$GITHUB_TOKEN@github.com/r7kamura/r7kamura.github.io.git 2> /dev/null'
+    - git commit -m "Update from Travis CI"
+    - 'git push https://$GITHUB_TOKEN@github.com/r7kamura/r7kamura.github.io.git -f'
