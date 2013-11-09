@@ -1,3 +1,4 @@
+desc "Build & Publish"
 task default: [:build, :publish]
 
 desc "Build"
