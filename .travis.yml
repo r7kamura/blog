@@ -5,6 +5,7 @@ env:
     - GIT_COMMITTER_EMAIL=r7kamura@gmail.com
     - GIT_AUTHOR_NAME=r7kamura
     - GIT_AUTHOR_EMAIL=r7kamura@gmail.com
+    - secure=FAn70PbufeU/XP32f79zBezixQYzkDB7x2FOGPJIOGbWCSfQ5ADgD//wOb6X1eg7Xw8UmYrxHV5acbCD1JeijSQJcMrxxbkMEE3JXwafOeuDvHTaNTae7vkdLkGKSmvr4Qcdn2bASTM1SJRrIHyNSwEYg9AKjSURFCHcVM+Z/M8=
 before_script:
     - git clone --quiet https://github.com/r7kamura/r7kamura.git build
 script:
