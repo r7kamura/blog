@@ -9,6 +9,7 @@
 body {
   font-family: 'Lucida Sans Unicode', 'Lucida Grande', 'Avenir Next', 'Hiragino Kaku Gothic ProN', Meiryo, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: #F3F1E8;
+  color: #333;
 }
 
 a {
@@ -112,12 +113,13 @@ h2 {
 }
 
 .main-article {
-  line-height: 1.75em;
+  line-height: 1.9em;
 }
 
 .main-article h2 {
-  margin: 2em 0 .2em;
+  margin: 2em 0 0;
   font-size: 1.2em;
+  line-height: 2;
 }
 
 .main-article p {
