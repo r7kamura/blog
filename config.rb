@@ -20,8 +20,6 @@ activate :blog do |blog|
   # blog.year_link = ":year"
   blog.calendar_template = "calendar.html"
   blog.paginate = false
-  blog.permalink = ":year/:month/:day/:title"
   blog.sources = "articles/:year-:month-:day-:title.html"
   blog.tag_template = "tag.html"
-  blog.taglink = "tags/:tag"
 end
