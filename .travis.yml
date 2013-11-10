@@ -10,6 +10,7 @@ script:
     - bundle exec middleman build
 after_success:
     - cd build
+    - echo "task :default" > Rakefile
     - git init
     - git add --all
     - git commit -m "Update from Travis CI"
