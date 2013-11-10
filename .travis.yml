@@ -5,7 +5,7 @@ env:
     - GIT_COMMITTER_EMAIL: "r7kamura@gmail.com"
     - GIT_AUTHOR_NAME: "r7kamura"
     - GIT_AUTHOR_EMAIL: "r7kamura@gmail.com"
-    - secure: "EmtA2mtXXFEtqzL/dlxmzL6dp7qh0hxSzVtfdqiadjW4PfXZsep0+mqiCEYmD+w1338oiQtgTtLagluGkdavIf74TvhIEgZ0KV4aFqvQ+x0v1Cu+m7egOdag7ZoLr0rHsJFiwa2hzM4SXecJMH++hHJ26RT0lGuFAx6CiKNMoY4="
+    - secure: "caVcOKNB8nhLbR25WFpzm9nOvWOPuLc+VF8OsdPrSrMEVvK5k2t4d/RGSzVzOnr54kQNJs5ttcaKVXwkyl1dnKrxzwxE7Z3QEF4XjqaOMuJeJ6qatNe4hco9w2DEqPzIfOzt/zjwPa58ZYfAgolP9kF5m5iwN/jaNYRjKt40dUI="
 script:
     - bundle exec middleman build
 after_success:
@@ -13,4 +13,4 @@ after_success:
     - git init
     - git add --all
     - git commit -m "Update from Travis CI"
-    - 'git push https://$GITHUB_TOKEN@github.com/r7kamura/r7kamura.github.io.git master -f'
+    - 'git push --quiet https://$GITHUB_TOKEN@github.com/r7kamura/r7kamura.github.io.git master -f 2> /dev/null'
