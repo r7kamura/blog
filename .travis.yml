@@ -1,11 +1,11 @@
 language: ruby
 env:
   global:
-    - GIT_COMMITTER_NAME=r7kamura
-    - GIT_COMMITTER_EMAIL=r7kamura@gmail.com
-    - GIT_AUTHOR_NAME=r7kamura
-    - GIT_AUTHOR_EMAIL=r7kamura@gmail.com
-    - secure=RATB5kfl+Gt/47PoHJ8BFF5rx6LQv4SOgbhbG7uraxlrOzCN2K8xlgHy3xY+taNyUM0ibbAiIayb0zlqt6PNVeLypXpKUtsTACJXL9UonbjH1Z3wYnG7ycmJUiNN6x1aoc/pqrJp4wiDzSckJkOdLzYPPB7sWAeDiC0ywPpL7Oc=
+    - GIT_COMMITTER_NAME: "r7kamura"
+    - GIT_COMMITTER_EMAIL: "r7kamura@gmail.com"
+    - GIT_AUTHOR_NAME: "r7kamura"
+    - GIT_AUTHOR_EMAIL: "r7kamura@gmail.com"
+    - secure: "EmtA2mtXXFEtqzL/dlxmzL6dp7qh0hxSzVtfdqiadjW4PfXZsep0+mqiCEYmD+w1338oiQtgTtLagluGkdavIf74TvhIEgZ0KV4aFqvQ+x0v1Cu+m7egOdag7ZoLr0rHsJFiwa2hzM4SXecJMH++hHJ26RT0lGuFAx6CiKNMoY4="
 script:
     - bundle exec middleman build
 after_success:
