@@ -130,6 +130,10 @@ h2 {
   margin: 2em 0;
 }
 
+.main-article img {
+  max-width: 100%;
+}
+
 .footer-inner {
   @include inner;
   text-align: center;
