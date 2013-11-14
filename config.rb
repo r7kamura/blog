@@ -10,6 +10,7 @@ page "/articles/*.html", layout: :article_layout
 page "/feed.xml", layout: false
 
 Time.zone = "Tokyo"
+Slim::Engine.set_default_options pretty: true
 
 activate :blog do |blog|
   blog.calendar_template = "calendar.html"
