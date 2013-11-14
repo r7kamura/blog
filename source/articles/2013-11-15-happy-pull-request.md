@@ -4,6 +4,8 @@ date: 2013-11-15
 tags: diary
 ---
 
+![](/images/2013-11-15-happy-pull-request/pull-request.png)
+
 「[おれはブログをGitHubに置いていたと思ったらPull Requestをもらっていた](https://github.com/r7kamura/r7kamura.github.io/pulls?direction=desc&page=1&sort=created&state=closed)」
 
 おれは今オープンソースのブログをほんのちょっぴりだが体験した。
