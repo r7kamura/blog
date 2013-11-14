@@ -1,0 +1,28 @@
+@import "modules/mixin";
+
+.header-image {
+  float: left;
+}
+
+.header-image-element {
+  border-radius: 50px;
+}
+
+.header-inner {
+  @include inner;
+  overflow: hidden;
+}
+
+.header-text {
+  float: left;
+  padding: 30px 20px;
+}
+
+.header-text-title {
+  line-height: 1;
+  margin: 0;
+}
+
+.header-text-description {
+  margin: 0;
+}

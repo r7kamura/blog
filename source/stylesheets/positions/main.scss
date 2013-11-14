@@ -1,0 +1,83 @@
+@import "modules/mixin";
+
+.main-inner {
+  @include inner;
+}
+
+.main-inner-single-article {
+  background: white;
+}
+
+.main-articles-element-table {
+  width: 100%;
+}
+
+.main-articles-element-year {
+  background: hsl(0, 20%, 86%);
+}
+
+.main-articles-element-month {
+  background: hsl(0, 20%, 87%);
+}
+
+.main-articles-element-day {
+  background: hsl(0, 20%, 89%);
+}
+
+.main-articles-element-title {
+  background: hsl(0, 20%, 90%);
+  padding-left: 20px;
+}
+
+.main-articles-element-day,
+.main-articles-element-month,
+.main-articles-element-year,
+.main-articles-element-title {
+  padding: 20px 10px;
+  color: hsl(0, 20%, 30%);
+
+  .main-articles-element:hover & {
+    background: hsl(0, 20%, 80%);
+  }
+}
+
+.main-articles-element-day,
+.main-articles-element-month,
+.main-articles-element-year {
+  width: 40px;
+  text-align: center;
+}
+
+.main-article-header {
+  margin-bottom: 4em;
+}
+
+.main-article-header-title {
+  text-align: center;
+}
+
+.main-article-header-date {
+  text-align: center;
+}
+
+.main-article {
+  line-height: 1.9em;
+}
+
+.main-article h2 {
+  margin: 2em 0 0;
+  font-size: 1.2em;
+  line-height: 2;
+}
+
+.main-article p {
+  margin: 0;
+}
+
+.main-article p+p {
+  margin: 2em 0;
+}
+
+.main-article img {
+  max-width: 100%;
+}
