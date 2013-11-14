@@ -1,9 +1,7 @@
 .main-articles
-  - blog.articles.each do |article|
+  - blog.articles.each.with_index do |article, i|
     = link_to article do
-      table.main-articles-element
+      table class="main-articles-element-#{i} main-articles-element"
         tr
-          td.main-articles-element-year= article.date.year
-          td.main-articles-element-month= article.date.month
-          td.main-articles-element-day= article.date.day
+          td.main-articles-element-date= article.date.to_date
           td.main-articles-element-title= article.title

@@ -8,43 +8,32 @@
   background: white;
 }
 
-.main-articles-element-table {
-  width: 100%;
-}
+@for $i from 0 through 20 {
+  .main-articles-element-#{$i} {
+    background: hsl(360deg / 20 * $i, 80%, 85%);
+    color: hsl(360deg / 20 * $i, 90%, 40%);
 
-.main-articles-element-year {
-  background: hsl(0, 20%, 86%);
-}
-
-.main-articles-element-month {
-  background: hsl(0, 20%, 87%);
-}
-
-.main-articles-element-day {
-  background: hsl(0, 20%, 89%);
-}
-
-.main-articles-element-title {
-  background: hsl(0, 20%, 90%);
-  padding-left: 20px;
-}
-
-.main-articles-element-day,
-.main-articles-element-month,
-.main-articles-element-year,
-.main-articles-element-title {
-  padding: 20px 10px;
-  color: hsl(0, 20%, 30%);
-
-  .main-articles-element:hover & {
-    background: hsl(0, 20%, 80%);
+    &:hover {
+      color: hsl(360deg / 20 * $i, 90%, 70%);
+    }
   }
 }
 
-.main-articles-element-day,
-.main-articles-element-month,
-.main-articles-element-year {
-  width: 40px;
+.main-articles-element-date,
+.main-articles-element-title {
+  padding: 20px 10px;
+}
+
+.main-articles-element-date {
+  background: rgba(255, 255, 255, .2);
+}
+
+.main-articles-element-title {
+  padding-left: 20px;
+}
+
+.main-articles-element-date {
+  width: 120px;
   text-align: center;
 }
 
