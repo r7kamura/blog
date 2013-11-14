@@ -18,3 +18,8 @@ activate :blog do |blog|
   blog.sources = "articles/:year-:month-:day-:title.html"
   blog.tag_template = "tag.html"
 end
+
+configure :build do
+  activate :minify_css
+  activate :minify_javascript
+end
