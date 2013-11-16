@@ -11,6 +11,8 @@ describe "This site" do
     get "/2013/11/15/happy-pull-request.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
+    get "/images/2013-11-10-hello-world/build-pipeline.png"
+    get "/images/2013-11-15-happy-pull-request/pull-request.png"
     get "/index.html"
     get "/stylesheets/all.css"
   end
