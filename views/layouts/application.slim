@@ -4,11 +4,10 @@ html
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"
     title
-      = current_article.title + " - " unless current_article.nil?
-      = config.blog_title
+      = params[:title] + " - " if params[:title]
+      = settings.blog_title
     = feed_tag :atom, "/feed.xml", title: "Atom Feed"
     = stylesheet_link_tag :all, media: :all
-    = javascript_include_tag :all
     = favicon_tag "/images/favicon.ico"
 
   body
@@ -19,11 +18,11 @@ html
             = image_tag "r7kamura.png", width: "100", height: "100", class: "header-image-element"
           .header-text
             h1.header-text-title
-              = config.blog_title
+              = settings.blog_title
             p.header-text-description
-              = config.blog_description
+              = settings.blog_description
     .main
-      .main-inner class="#{is_blog_article? && 'main-inner-single-article'}"
+      .main-inner class="#{params[:title] && 'main-inner-single-article'}"
         = yield
 
     footer.footer
@@ -37,4 +36,4 @@ html
           '  &
           = link_to "Travis CI", "https://travis-ci.org/r7kamura/r7kamura.github.io"
           '  &
-          = link_to "Middleman", "http://middlemanapp.com/"
+          = link_to "Sitespec", "https://github.com/r7kamura/sitespec"

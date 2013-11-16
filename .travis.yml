@@ -7,7 +7,7 @@ env:
     - GIT_AUTHOR_EMAIL: "r7kamura@gmail.com"
     - secure: "caVcOKNB8nhLbR25WFpzm9nOvWOPuLc+VF8OsdPrSrMEVvK5k2t4d/RGSzVzOnr54kQNJs5ttcaKVXwkyl1dnKrxzwxE7Z3QEF4XjqaOMuJeJ6qatNe4hco9w2DEqPzIfOzt/zjwPa58ZYfAgolP9kF5m5iwN/jaNYRjKt40dUI="
 script:
-    - bundle exec middleman build
+    - bundle exec rspec
 after_success:
     - cd build
     - echo "task :default" > Rakefile

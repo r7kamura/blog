@@ -1,7 +1,7 @@
 .main-articles
-  - blog.articles.each.with_index do |article, i|
-    = link_to article do
+  - articles.each.with_index do |article, i|
+    = link_to article.path do
       table class="main-articles-element-#{i} main-articles-element"
         tr
-          td.main-articles-element-date= article.date.to_date
+          td.main-articles-element-date= article.date
           td.main-articles-element-title= article.title
