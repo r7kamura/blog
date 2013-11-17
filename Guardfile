@@ -1,3 +1,3 @@
 guard "livereload" do
-  watch(//)
+  watch(/^(?!build)/)
 end
