@@ -1,5 +1,6 @@
 require "builder"
 require "padrino"
+require "rack-livereload"
 require "redcarpet"
 require "sass"
 require "slim"
@@ -8,6 +9,7 @@ require "yaml"
 class App < Padrino::Application
   register Padrino::Helpers
   register Padrino::Rendering
+  use Rack::LiveReload
   use Rack::Static, urls: ["/images"]
 
   set :author, "r7kamura"
@@ -19,6 +21,7 @@ class App < Padrino::Application
   set :slim, pretty: true
 
   disable :logging
+  enable :reloader
 
   get "/stylesheets/all.css" do
     content_type "text/css"

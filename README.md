@@ -8,8 +8,10 @@ bundle exec rspec
 ```
 
 ### preview
+Launch web server with live-reloading.
+
 ```
-rackup
+bundle exec foreman start
 ```
 
 ### deploy
