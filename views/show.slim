@@ -1,6 +1,6 @@
 article.main-article
   .main-article-header
-    h1.main-article-header-title= article.title
+    h1.main-article-header-title= article.front_matter["title"]
     .main-article-header-date
       = article.date
   == markdown(article.body)
