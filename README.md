@@ -2,15 +2,16 @@
 http://r7kamura.github.io/
 
 ### build
-[Sitespec](https://github.com/r7kamura/sitespec) generates static files from spec definition.
+[Sitespec](https://github.com/r7kamura/sitespec) generates static site from the application & spec definition.
 ```sh
 bundle exec rspec
 ```
 
 ### preview
 ```
-rackup -b "run Rack::Directory.new('build')"
+rackup
 ```
 
 ### deploy
-[Travis CI](https://travis-ci.org/r7kamura/r7kamura.github.io) acts for you.
+All you have to do is to push code to GitHub.
+Let [Travis CI](https://travis-ci.org/r7kamura/r7kamura.github.io) worry about the rest.
