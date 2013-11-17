@@ -25,9 +25,8 @@ class App < Padrino::Application
   end
 
   get "/index.html" do
-    slim :index, locals: {
-      articles: Dir.glob("#{articles_path}/*.md").sort.reverse.map {|path| Article.new(path) }
-    }
+    articles = Dir.glob("#{articles_path}/*.md").sort.reverse.map {|path| Article.new(path) }
+    slim :index, locals: { articles: articles }
   end
 
   get "/:year/:month/:day/:title.html" do
