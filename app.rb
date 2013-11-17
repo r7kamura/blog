@@ -25,15 +25,17 @@ class App < Padrino::Application
   end
 
   get "/index.html" do
-    articles = Dir.glob("#{articles_path}/*.md").sort.reverse.map {|path| Article.new(path) }
-    slim :index, locals: { articles: articles }
+    slim :index, locals: {
+      articles: Dir.glob("#{articles_path}/*.md").sort.reverse.map {|path| Article.new(path) }
+    }
   end
 
   get "/:year/:month/:day/:title.html" do
-    path = "#{articles_path}/#{params[:year]}-#{params[:month]}-#{params[:day]}-#{params[:title]}.md"
-    matters = {}
-    content = File.read(path).sub(/\A(---\s*\n.*?\n?)^---\s*$\n?/m) { matters = YAML.load($1); "" }
-    slim :show, locals: matters.merge(body: markdown(content))
+    slim :show, locals: {
+      article: Article.new(
+        "#{articles_path}/#{params[:year]}-#{params[:month]}-#{params[:day]}-#{params[:title]}.md",
+      ),
+    }
   end
 
   error do |exception|
@@ -47,6 +49,8 @@ class App < Padrino::Application
   end
 
   class Article
+    attr_reader :path
+
     def initialize(path)
       @path = path
     end
@@ -59,14 +63,33 @@ class App < Padrino::Application
       Date.new(*segments[0, 3].map(&:to_i))
     end
 
-    def path
+    def url
       "/#{date.year}/#{date.month}/#{date.day}/#{title}.html"
+    end
+
+    def front_matter
+      front_matter_and_body[0]
+    end
+
+    def body
+      front_matter_and_body[1]
     end
 
     private
 
     def segments
-      @segments ||= File.basename(@path).split("-", 4)
+      @segments ||= File.basename(path).split("-", 4)
+    end
+
+    def front_matter_and_body
+      @front_matter_and_body ||= begin
+        matters = {}
+        content = File.read(path).sub(/\A(---\s*\n.*?\n?)^---\s*$\n?/m) do
+          matters = YAML.load($1)
+          ""
+        end
+        [matters, content]
+      end
     end
   end
 end

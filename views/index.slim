@@ -1,6 +1,6 @@
 .main-articles
   - articles.each.with_index do |article, i|
-    = link_to article.path do
+    = link_to article.url do
       table class="main-articles-element-#{i} main-articles-element"
         tr
           td.main-articles-element-date= article.date

@@ -1,7 +1,5 @@
 ---
 title: Happy Pull Request
-date: 2013-11-15
-tags: diary
 ---
 
 ![](/images/2013-11-15-happy-pull-request/pull-request.png)
