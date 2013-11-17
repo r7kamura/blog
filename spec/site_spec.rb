@@ -9,6 +9,7 @@ describe "This site" do
   it "provides the following files" do
     get "/2013/11/10/hello-world.html"
     get "/2013/11/15/happy-pull-request.html"
+    get "/2013/11/18/sitespec.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
