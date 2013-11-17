@@ -1,3 +1,4 @@
+require "builder"
 require "padrino"
 require "redcarpet"
 require "sass"
@@ -25,7 +26,6 @@ class App < Padrino::Application
   end
 
   get "/index.html" do
-    articles = Dir.glob("#{articles_path}/*.md").sort.reverse.map {|path| Article.new(path) }
     slim :index, locals: { articles: articles }
   end
 
@@ -34,11 +34,19 @@ class App < Padrino::Application
     slim :show, locals: { article: Article.new(path) }
   end
 
+  get "/feed.xml" do
+    builder :feed, locals: { articles: articles }
+  end
+
   error do |exception|
     raise exception
   end
 
   helpers do
+    def articles
+      Dir.glob("#{articles_path}/*.md").sort.reverse.map {|path| Article.new(path) }
+    end
+
     def articles_path
       "#{settings.root}/articles"
     end

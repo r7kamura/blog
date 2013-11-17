@@ -15,5 +15,6 @@ describe "This site" do
     get "/images/2013-11-15-happy-pull-request/pull-request.png"
     get "/index.html"
     get "/stylesheets/all.css"
+    get "/feed.xml"
   end
 end
