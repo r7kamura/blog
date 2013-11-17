@@ -31,11 +31,8 @@ class App < Padrino::Application
   end
 
   get "/:year/:month/:day/:title.html" do
-    slim :show, locals: {
-      article: Article.new(
-        "#{articles_path}/#{params[:year]}-#{params[:month]}-#{params[:day]}-#{params[:title]}.md",
-      ),
-    }
+    path = "#{articles_path}/#{params[:year]}-#{params[:month]}-#{params[:day]}-#{params[:title]}.md"
+    slim :show, locals: { article: Article.new(path) }
   end
 
   error do |exception|
