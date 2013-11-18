@@ -4,7 +4,7 @@ html
     meta charset="utf-8"
     meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"
     title
-      = params[:title] + " - " if params[:title]
+      = article.front_matter["title"] + " - " if defined?(article)
       = settings.blog_title
     = feed_tag :atom, "/feed.xml", title: "Atom Feed"
     = stylesheet_link_tag :all, media: :all
