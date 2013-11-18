@@ -9,7 +9,7 @@ require "yaml"
 class App < Padrino::Application
   register Padrino::Helpers
   register Padrino::Rendering
-  use Rack::LiveReload
+  use Rack::LiveReload unless defined?(RSpec)
   use Rack::Static, urls: ["/images"]
 
   set :author, "r7kamura"
