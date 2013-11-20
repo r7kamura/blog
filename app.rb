@@ -19,6 +19,7 @@ class App < Padrino::Application
   set :show_exceptions, false
   set :site_url, "http://r7kamura.github.io/"
   set :slim, pretty: true
+  set :markdown, fenced_code_blocks: true
 
   disable :logging
   enable :reloader

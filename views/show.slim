@@ -3,4 +3,4 @@ article.main-article
     h1.main-article-header-title= article.front_matter["title"]
     .main-article-header-date
       = article.date
-  == markdown(article.body, fenced_code_blocks: true)
+  == markdown article.body
