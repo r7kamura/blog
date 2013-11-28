@@ -16,6 +16,7 @@ describe "This site" do
     get "/images/2013-11-10-hello-world/build-pipeline.png"
     get "/images/2013-11-15-happy-pull-request/pull-request.png"
     get "/images/2013-11-27-rack-multiplexer/onion.png"
+    get "/images/2013-11-27-rack-multiplexer/benchmark.png"
     get "/index.html"
     get "/stylesheets/all.css"
     get "/feed.xml"
