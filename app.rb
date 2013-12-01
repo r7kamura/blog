@@ -72,7 +72,7 @@ class App < Padrino::Application
     end
 
     def url
-      "/#{date.year}/#{date.month}/#{date.day}/#{title}.html"
+      date.strftime("/%Y/%m/%d/#{title}.html")
     end
 
     def front_matter
