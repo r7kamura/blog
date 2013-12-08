@@ -2,8 +2,10 @@
 title: Asciinema
 ---
 
-## Asciinema
-[Asciinema](http://asciinema.org/)というのは、端末上の操作を録画するツールとそのホスティングサービス。
+Asciinemaの使い方、使われ方、ソフトウェア品質特性における魅力性について触れます。
+
+## 使い方
+[Asciinema](http://asciinema.org/)という、端末上の操作を録画するツールとそのホスティングサービスがある。
 「Record and share your terminal sessions, the right way」とのこと。
 ざっくり言うとTerminal版[Gifzo](http://gifzo.net/)みたいなもので、こういう感じで利用できる。
 
@@ -18,7 +20,7 @@ asciinema rec
 
 <script type="text/javascript" src="http://asciinema.org/a/6669.js" id="asciicast-6669" data-size="small" async></script>
 
-## またDockerか
+## 使われ方
 例えば、Asciinemaは[DockerのTutorial](http://docs.docker.io/en/latest/examples/hello_world/)で使われている。
 Dockerは自分にとって新しい概念を導入するものだったので、
 入力と出力の様子を見ながら外側から徐々にシステムの動きを把握していくことで、段々と理解が深まっていくのを感じた。
