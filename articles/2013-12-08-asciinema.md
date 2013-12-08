@@ -2,7 +2,7 @@
 title: Asciinema
 ---
 
-Asciinemaの使い方、使われ方、ソフトウェア品質特性における魅力性について。
+Asciinemaの使い方、使われ方、使い勝手について。
 
 ## 使い方
 [Asciinema](http://asciinema.org/)という、端末上の操作を録画するツールとそのホスティングサービスがある。
