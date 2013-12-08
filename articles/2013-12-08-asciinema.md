@@ -2,7 +2,7 @@
 title: Asciinema
 ---
 
-Asciinemaの使い方、使われ方、ソフトウェア品質特性における魅力性について触れます。
+Asciinemaの使い方、使われ方、ソフトウェア品質特性における魅力性について。
 
 ## 使い方
 [Asciinema](http://asciinema.org/)という、端末上の操作を録画するツールとそのホスティングサービスがある。
@@ -21,9 +21,9 @@ asciinema rec
 <script type="text/javascript" src="http://asciinema.org/a/6669.js" id="asciicast-6669" data-size="small" async></script>
 
 ## 使われ方
-例えば、Asciinemaは[DockerのTutorial](http://docs.docker.io/en/latest/examples/hello_world/)で使われている。
+例えば、Asciinemaは[DockerのTutorial](http://docs.docker.io/en/latest/examples/hello_world/)で使われている(またDockerか)。
 Dockerは自分にとって新しい概念を導入するものだったので、
-入力と出力の様子を見ながら外側から徐々にシステムの動きを把握していくことで、段々と理解が深まっていくのを感じた。
+入力と出力の様子を見ながら外側からシステムの動きを把握していくことで、徐々に理解が深められた。
 Dockerは実行環境の用意に少し時間が掛かるので、
 Ubuntuのdownloadを行っている間に説明を見ていたおかげで最初の理解がとても早かった。
 
