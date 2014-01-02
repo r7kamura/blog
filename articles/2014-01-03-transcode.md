@@ -2,7 +2,7 @@
 title: Transcode
 ---
 
-[CircleCIの14,000行のテストコードのフレームワークが、1日で置き換えられた話](http://blog.circleci.com/rewriting-your-test-suite-in-clojure-in-24-hours/)
+[CircleCIの14,000行のテストコードのフレームワークが1日で置き換えられた話](http://blog.circleci.com/rewriting-your-test-suite-in-clojure-in-24-hours/)
 
 ## まとめ
 * Clojureには、Clojureで書かれたソースコードを読み込みデータ構造として解釈する機能がある
