@@ -5,7 +5,7 @@ http://r7kamura.github.io/
 [Sitespec](https://github.com/r7kamura/sitespec) generates static site from the application & spec definition.
 
 ```sh
-bundle exec rspec
+bundle exec rake
 ```
 
 ### preview
