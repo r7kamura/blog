@@ -14,6 +14,7 @@ describe "This site" do
     get "/2013/12/01/autodoc.html"
     get "/2013/12/08/asciinema.html"
     get "/2014/01/03/transcode.html"
+    get "/2014/02/01/faraday-lazyable.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
