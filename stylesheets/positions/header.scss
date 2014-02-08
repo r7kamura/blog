@@ -10,6 +10,7 @@
 
 .header-inner {
   @include inner;
+  padding-bottom: 30px;
   overflow: hidden;
 }
 
