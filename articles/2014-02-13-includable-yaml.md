@@ -30,7 +30,7 @@ puts YAML.load_file("api.yml").to_yaml
     response:
       array: !include recipe.yml
 
-/recipe:
+/recipe/{id}:
   GET:
     response: !include recipe.yml
 ```
