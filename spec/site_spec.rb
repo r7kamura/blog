@@ -17,6 +17,7 @@ describe "This site" do
     get "/2014/02/01/faraday-lazyable.html"
     get "/2014/02/13/includable-yaml.html"
     get "/2014/02/13/device-specific-api-design.html"
+    get "/2014/02/14/apiary.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
