@@ -1,5 +1,5 @@
 ---
-title: faraday-lazyable
+title: Faraday::Lazyable
 ---
 
 [faraday-lazyable](https://github.com/r7kamura/faraday-lazyable)という、
