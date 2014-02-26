@@ -2,8 +2,6 @@
 title: Private PaaS Beach
 ---
 
-デプロイこそが全て。
-
 ## Dokku
 [https://github.com/progrium/dokku/](https://github.com/progrium/dokku/)  
 Dokkuを使えばmini-Herokuのような環境を簡単に構築出来る。
