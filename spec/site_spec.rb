@@ -20,6 +20,7 @@ describe "This site" do
     get "/2014/02/14/apiary.html"
     get "/2014/02/18/private-paas-beach.html"
     get "/2014/02/26/etcd.html"
+    get "/2014/02/27/gitreceive.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
