@@ -22,7 +22,7 @@ forced commandを使うと「SSH接続時に何をするか」という情報を
 OpenSSHでは、authorized_keysに実行したいコマンドを指定することで実現出来る。
 gitreceiveはSSH公開鍵の登録時にforced commandを使い、
 git pushによりSSH接続が行われた際に
-/home/${GITUSRER}/gitreceive を実行している。
+/home/${GITUSER}/gitreceive を実行している。
 Dokkuでは、このタイミングで /user/local/bin/dokku を実行している。
 
 ## Receiver
