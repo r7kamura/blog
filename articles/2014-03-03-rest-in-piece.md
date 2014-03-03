@@ -40,6 +40,7 @@ Adapterを取り替えることで別のDBも利用出来る。
 * [Parse](https://parse.com/docs/rest) - REST APIも提供するMBaaS
 * [Restaurant](https://github.com/r7kamura/restaurant/) - MongoDBの単純なRailsラッパー
 * [Rack::Spec](https://github.com/r7kamura/rack-spec) - REST APIの為のRack-Middleware
+* [Rack::MongoidAdapter](https://github.com/r7kamura/rack-mongoid_adapter) - Rack用のMongoidラッパー
 
 ## おわりに
 疲れていたので考えたことを思い付くままに書いてみた。
