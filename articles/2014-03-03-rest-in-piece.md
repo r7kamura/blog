@@ -20,6 +20,10 @@ Connectorを取り替えることで別のDBも利用出来る。
 更に別のAPIにリクエストを委譲する等の用途が考えられる。
 既存のAPIから徐々に移行していきたい場合などに必要になる。
 
+* ActiveRecordConnector
+* MongoidConnector
+* SomeAPIConnector
+
 ## Module
 * Validation
 * OAuth
