@@ -25,14 +25,6 @@ Connectorを取り替えることで別のDBも利用出来る。
 * SomeAPIConnector
 
 ## Module
-* Validation
-* OAuth
-* Logging
-* Caching
-* MIME
-* HATEOAS
-* Interface
-
 必要に応じてコアの機能をモジュールで拡張する。
 OAuthモジュールは、リクエストのAuthorizationヘッダからアクセストークンを取り出し、ユーザ認証を行う(違反していればエラーを返す)。
 Validationモジュールは、予め与えられたインターフェース定義に沿ってリクエストの型や内容を検閲する(違反していればエラーを返す)。
@@ -43,6 +35,14 @@ HATEOASモジュールはリソース間を遷移するためのリンク情報�
 InterfaceモジュールはAPIのインターフェース仕様を表現し、
 サーバ・クライアント間でAPIの知識を共有する(クライアントコードの自動生成等に利用する)。
 任意のAPIへのリクエストを許す代わりに、ValidationモジュールやInterfaceモジュールでリクエストを制限出来る。
+
+* Validation
+* OAuth
+* Logging
+* Caching
+* MIME
+* HATEOAS
+* Interface
 
 ## Eve
 [Eve](http://python-eve.org/index.html)
