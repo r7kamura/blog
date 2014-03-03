@@ -1,5 +1,5 @@
 ---
-title: Give me REST
+title: REST in Piece
 ---
 
 人の手でREST APIをつくるのに少し疲れた。
