@@ -2,12 +2,13 @@
 title: Give me REST
 ---
 
-人の手でREST APIをつくるのに疲れたので、
-REST API生成用のフレームワークについて思いを少し巡らせた。
-フレームワークはConnector < Module という二層構造で構成する。
+人の手でREST APIをつくるのに少し疲れた。
+
+## Overview
+REST API生成用のフレームワークがあればなと思い、少し思考を巡らせる。
+Connector < Module という二層構造で構成されたフレームワーク。
 ConnectorというDB接続用のアプリを、
-Moduleと呼ばれる幾つかのMiddlewareで内包する形。
-例えばDBにはMySQLやMongoDB、WAFにはRackなどが使える。
+Moduleと呼ばれる幾つかのMiddlewareが内包する。
 
 ## Connector
 ConnectorはDBの為のHTTPラッパーとしての責務を負う。
@@ -57,6 +58,9 @@ MongoDBの単純なRailsラッパーとして
 REST APIの為のRack-Middlewareとして [rack-spec](https://github.com/r7kamura/rack-spec) というのを作ったことがある。
 
 ## おわりに
-疲れていたので考えたことを思い付くままに書いてみたけど、レゴで遊ぶときみたいにあまり難しく考えず、
+疲れていたので考えたことを思い付くままに書いてみた。
+レゴで遊ぶときみたいにあまり難しく考えず、
 各自適当に必要になりそうなMiddlewareやConnectorを気が向いたらつくっていって、
-最後にせーので合体して完成させられるとかっこ良さそう。
+最後にせーので合体して完成させられるとかっこ良い。
+特に何か新しい発想はなくて、品質の良いパーツがもう少し増えていって、
+組み合わせるだけで何か出来るようになったらいいなという話だった。
