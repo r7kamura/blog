@@ -26,40 +26,20 @@ Connectorを取り替えることで別のDBも利用出来る。
 
 ## Module
 必要に応じてコアの機能をモジュールで拡張する。
-OAuthモジュールは、リクエストのAuthorizationヘッダからアクセストークンを取り出し、ユーザ認証を行う(違反していればエラーを返す)。
-Validationモジュールは、予め与えられたインターフェース定義に沿ってリクエストの型や内容を検閲する(違反していればエラーを返す)。
-Loggingモジュールは、リクエストとレスポンスの結果を指定された場所に書き込む。
-CachingモジュールはレスポンスをHTTPレイヤでキャッシュする。
-MIMEモジュールはレスポンスデータを適切なフォーマットに変換する。
-HATEOASモジュールはリソース間を遷移するためのリンク情報を提供する。
-InterfaceモジュールはAPIのインターフェース仕様を表現し、
-サーバ・クライアント間でAPIの知識を共有する(クライアントコードの自動生成等に利用する)。
-任意のAPIへのリクエストを許す代わりに、ValidationモジュールやInterfaceモジュールでリクエストを制限出来る。
 
-* Validation
-* OAuth
-* Logging
-* Caching
-* MIME
-* HATEOAS
-* Interface
+* Authentication - OAuth認証やBasic認証を行う
+* Caching - HTTPレイヤでのキャッシュ (ETag等)
+* HATEOAS - リソース間を遷移するためのリンク情報を提供する
+* Interface - インターフェース定義を宣言する
+* Logging - リクエスト & レスポンスのログを取る
+* MIME - 最適なContent-Typeに変換する
+* Validation - 与えられたインターフェース定義を元にリクエストを検閲する
 
-## Eve
-[Eve](http://python-eve.org/index.html)
-というPython製でWSGIベースのREST API用フレームワークがあり、
-少なからず影響を受けている。
-
-## Parse
-MBaaSを提供する [Parse](https://parse.com/docs/rest)
-も近い機能を有している。
-
-## Restaurant
-MongoDBの単純なRailsラッパーとして
-[Restaurant](https://github.com/r7kamura/restaurant/)
-という試作品を以前に一度つくっている。
-
-## Rack::Spec
-REST APIの為のRack-Middlewareとして [rack-spec](https://github.com/r7kamura/rack-spec) というのを作ったことがある。
+## Examples
+* [Eve](http://python-eve.org/index.html) - Python製のREST API用フレームワーク
+* [Parse](https://parse.com/docs/rest) - REST APIも提供するMBaaS
+* [Restaurant](https://github.com/r7kamura/restaurant/) - MongoDBの単純なRailsラッパー
+* [Rack::Spec](https://github.com/r7kamura/rack-spec) - REST APIの為のRack-Middleware
 
 ## おわりに
 疲れていたので考えたことを思い付くままに書いてみた。
