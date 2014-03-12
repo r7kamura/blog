@@ -14,7 +14,7 @@ title: Database Encryption
 * 財産
 * その他開示されていない情報
 
-## 最近日本で大きな情報漏洩被害にあった企業は？
+## 最近日本で大きな情報漏洩被害にあった企業例は？
 * Sony (PlayStation Network)
 * Yahoo! Japan
 * LINE
