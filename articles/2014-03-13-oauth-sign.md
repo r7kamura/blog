@@ -1,5 +1,5 @@
 ---
-title: OAuth 2.0 to me
+title: OAuth Sign
 ---
 
 OAuth 2.0 への理解を深めるため、自分がOAuthをどう捉えているかを整理します。  
