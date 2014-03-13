@@ -24,6 +24,7 @@ describe "This site" do
     get "/2014/02/28/atom-contribution-guideline.html"
     get "/2014/03/03/rest-in-piece.html"
     get "/2014/03/12/database-encryption.html"
+    get "/2014/03/13/oauth-to-me.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
