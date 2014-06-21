@@ -13,8 +13,8 @@ class App < Padrino::Application
   use Rack::Static, urls: ["/images"]
 
   set :author, "r7kamura"
-  set :blog_description, "Bits of technologies piled up here and there."
-  set :blog_title, "r7kamura per second"
+  set :blog_description, "r7kamura per second."
+  set :blog_title, "r7km/s"
   set :scss, views: "#{root}/stylesheets", load_paths: ["#{root}/stylesheets"]
   set :show_exceptions, false
   set :site_url, "http://r7kamura.github.io/"
