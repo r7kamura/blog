@@ -4,12 +4,6 @@ title: Discoverd
 
 [flynn/discoverd](https://github.com/flynn/discoverd)という、Golang製のService discovery systemを読んだ。
 
-## discoverdとは
-discoverdは、etcdというKVSをバックエンドに利用して動作し、RPC経由でAPIを提供する。
-各ホストでetcdとdiscoverdを動作させておくことで、
-全てのホストがお互いの状態を把握している状態を作り出すことができる。
-複数のホストをまとめたクラスタを管理する用途に利用されることが想定される。
-
 ## 何ができるのか
 discoverdは各ホストから発行されるRegisterイベントとUnregisterイベントを検知し、
 discoverdに対してsubscribeしていたクライアントにこれらのイベントを伝える機能を持っている。
@@ -20,8 +14,8 @@ discoverdに対してsubscribeしていたクライアントにこれらのイ�
 subscribeしているクライアントはこの情報も受け取ることができる。
 
 ## discoverdとクライアントはどう通信するか
-イベントは不定期に発生するため、
-クライアントはストリーム型のコネクションでdiscoverdに接続する形になる。
+クライアントからのRegister & Unregister要求は単純なリクエスト & レスポンスの通信で実現できる。
+Subscribe要求ではイベントを待ち受ける形になるため、ストリーム型のコネクションでdiscoverdに接続する形になる。
 この辺りの実装はRPC用のライブラリを利用して実現されている。
 
 ## etcdには何が保存されるのか
