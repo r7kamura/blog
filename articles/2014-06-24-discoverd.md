@@ -31,7 +31,7 @@ JSONエンコードされるのは、Registerイベントと共に送られた�
 Registerリクエストを受け取ると、discoverdはetcdに値を書き込んでレスポンスを返す。
 Unregisterはその逆で、etcdから値を消してレスポンスを返す。
 
-## Subscribeされたときにdiscoverdでは何が起こるのか
+## Subscribeされたとき何が起こるのか
 クライアントがサービス名を渡してSubscribeしてきたとき、以下の処理が行われる。
 
 1. 以下LoopとChannelとGoroutineを使って更新情報を待ち受ける
