@@ -55,3 +55,7 @@ Unregisterはその逆で、etcdから値を消してレスポンスを返す。
 * クラスタリング
 * 更新通知の待受
 * 再帰的な値の探索
+
+## 参考
+* [Etcd - r7km/s](http://r7kamura.github.io/2014/02/26/etcd.html)
+* [Flynn - The product that ops provides to developers](https://flynn.io/)
