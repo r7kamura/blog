@@ -5,6 +5,11 @@ title: Discoverd
 [flynn/discoverd](https://github.com/flynn/discoverd)という、Golang製のService discovery systemを読んだ。
 
 ## 何ができるのか
+クラスタ内の全ホストでdiscoverd(とetcd)を動作させておくことで、
+各ホストのアドレスやメタ情報、クラスタへのホストの追加や削除などの情報が簡単に購読できるようになる。
+各ホストは名前ベースで管理されるため、同じ名前を持つホストを群として一律に扱うこともできる。
+
+## 具体的には
 discoverdは各ホストから発行されるRegisterイベントとUnregisterイベントを検知し、
 discoverdに対してsubscribeしていたクライアントにこれらのイベントを伝える機能を持っている。
 例えばdiscoverdを動作させているあるクラスタにsubscribeしているクライアントは、
