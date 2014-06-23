@@ -27,6 +27,7 @@ describe "This site" do
     get "/2014/03/13/oauth-sign.html"
     get "/2014/06/21/ghq.html"
     get "/2014/06/23/go-misc.html"
+    get "/2014/06/24/discoverd.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
