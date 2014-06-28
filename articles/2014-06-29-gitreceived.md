@@ -4,7 +4,7 @@ title: Gitreceived
 
 git pushに対応することに特化したSSHサーバ
 [Gitreceived](https://github.com/flynn/gitreceived)
-を読んだところ、幾つかの知見が得られた。
+を読んだ。
 
 ## git-shell
 Git付属のシェル git-shell がGitreceivedで利用されている。
