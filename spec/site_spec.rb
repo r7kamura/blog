@@ -29,6 +29,7 @@ describe "This site" do
     get "/2014/06/23/go-misc.html"
     get "/2014/06/24/discoverd.html"
     get "/2014/06/26/flynn-host.html"
+    get "/2014/06/29/gitreceived.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
