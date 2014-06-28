@@ -88,3 +88,9 @@ $ echo 'remote: \e[1G-----> Wow!'
 $ echo 'remote: \e[1G\e[KYay!'
 Yay!
 ```
+
+## Gitreceive
+GitreceivedはGitreceive(末尾のdが無い)の後継機として開発されている。
+GitreceivedがFlynn用に、GitreceiveがDokku用にそれぞれ開発されている。
+Gitreceiveについては下記の記事をどうぞ。  
+[Gitreceive - r7km/s](http://r7kamura.github.io/2014/02/27/gitreceive.html)
