@@ -25,8 +25,16 @@ flynn-hostの機能によってクラスタ内の1つのホストがリーダー
 * 特定のジョブを停止させる
 * 特定のジョブから発生するイベントを購読する
 
-ちなみにジョブには、Dockerコンテナの用意と実行に必要なあらゆるデータを設定として渡すことができる。
-例えばHostname, Memory, Env, Entrypoint, Entrypoint, Imageなど。
+## ジョブとは何か
+「この処理をこのDockerのイメージを利用してコンテナ上で実行してくれー」
+という命令を表現するデータ構造がジョブであり、
+flynn-hostクラスタに対して何かの処理をしてほしいクライアント
+(例えばUbuntuの上でこのRailsアプリを動かしてほしいとか)
+はジョブというデータ構造でその旨を表現し、
+flynn-hostのリーダーにHTTP経由でジョブを送信する。
+ちなみにジョブには、
+Hostname, Memory, Env, Entrypoint, Entrypoint, Imageなど、
+Dockerコンテナの用意と実行に必要な様々なデータを設定として渡すことができる。
 
 ## ホストはどのように管理されるのか
 flynn-hostクラスタ配下の各ホストでflynn-host、discoverd、etcdの3つのサービスを動作させておくことで、
