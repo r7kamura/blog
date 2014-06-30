@@ -137,7 +137,8 @@ https://gist.github.com/r7kamura/6b965acaba0ec0165f46
 ## Parse::RecRescent
 [Parse::RecRescent](http://perldoc.jp/docs/modules/Parse-RecDescent-1.94/RecDescent.pod)
 という再帰下降パーサを生成するためのライブラリがSQL::Translatorの内部で利用されている。
-BNF風の構文で定義することができるようになっていて、試しに単純な足し算を行う文法を定義してみた。
+BNF風の構文で文法を定義でき、各所でPerlのコードを実行できるようになっている。
+試しに、正の整数の足し算を行う単純な文法を定義してみた。
 
 ```
 #!/usr/bin/env perl
@@ -158,9 +159,55 @@ GRAMMAR
 my $parser = Parse::RecDescent->new($grammar);
 
 # Then parse $text into a primitive Perl object
-my $text= "5+6";
+my $text= "1+2";
 my $result = $parser->expression($text);
 
-# Print out the result as "5+6=11"
-print "$text=$result";
+# Print out the result as "1+2=3"
+print "$text=$result\n";
 ```
+
+```
+$ cpanm Parse::RecDescent
+$ ./parse.pl
+1+2=3
+```
+
+## MySQL用の文法
+SQL::Translatorでは、例えばMySQL用の文法が
+[このように](https://github.com/dbsrgits/sql-translator/blob/master/lib/SQL/Translator/Parser/MySQL.pm#L152-L892)
+定義されている。
+一部分だけ取り上げて見ることにする。
+先頭の中括弧内に囲われた部分では、構文解析中のどの部分からもグローバルに扱える変数を用意している。
+startruleの定義では、startruleがstatement(s)とeoffileの二つの部分からなることが定義されている。
+ここがMySQLの構文の唯一の開始地点であり、$parser->startrule($text) のような呼出により、
+database_name、tables、views、proceduresという4つのプロパティを持ったHashが得られることが分かる。
+
+```
+{
+    my (
+      $database_name,
+      $proc_order,
+      $table_order,
+      $view_order,
+      %procedures,
+      %tables,
+      %views,
+      @table_comments,
+    );
+    my $delimiter = ';';
+}
+startrule : statement(s) eofile {
+  {
+    database_name => $database_name,
+    tables        => \%tables,
+    views         => \%views,
+    procedures    => \%procedures,
+  }
+}
+```
+
+[Gistに載せたさっきのデバッグ用の出力](https://gist.github.com/r7kamura/6b965acaba0ec0165f46)
+を見れば、この構文解析結果が出力されていることが確認できる。
+例えばbefore.sqlの解析結果では、
+idカラムとnameカラムを持ったusersというテーブルが1つ定義されており、
+database_name、views、proceduresは空である、という解析結果が得られている。
