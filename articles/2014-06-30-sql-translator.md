@@ -11,7 +11,7 @@ winebarrel氏が、
 というActiveRecord用のスキーマ管理ツールをつくっていたのを見た。
 ActiveRecordのDSLで記述したスキーマ定義を更新すると、自動で差分を生成してくれるというもの。
 これは便利そうだけれど、ActiveRecordを利用しているというところが気になっていたので、
-ActiveRecordのDSLの代わりにSQLを利用してこれを実現する方法を探すことになった。
+ActiveRecordのDSLの代わりにSQLを利用してこれを実現する方法を探すことにした。
 
 ## SQL::Translatorの使い方とサンプル
 とりあえずSQL Translatorの使い方を知らないことにはどうにもならないので、
@@ -45,9 +45,9 @@ CREATE TABLE `items` (
 
 これをtranslate.plに入力して標準出力に差分を表示させる。具体的には以下の三つの工程を踏む。
 
-1. まずbefore.sqlとafter.sqlをSQL::Translator::Schemaオブジェクトに変換する
-1. 次にSQL::Translator::Diffオブジェクトにこれらを入力する
-1. 差分となるSQLを文字列で出力させる
+1. before.sqlとafter.sqlをSQL::Translator::Schemaオブジェクトに変換する
+1. 2つのSchemaからSQL::Translator::Diffオブジェクトをつくる
+1. SQL::Translator::Diffに差分となるSQLを文字列で出力してもらう
 
 ```
 #!/usr/bin/env perl
@@ -119,4 +119,4 @@ BEGIN ... COMMIT により変更がトランザクションに囲まれている
 dumpされたデータを読み込む場合などにはこの手法が取られることが多い。
 CREATE TABLEの部分を見ると、after.sqlで追加されたitemsテーブルの定義がきちんと反映されていることが分かる。
 今回は原文との差異も無かったが、
-方言やALIASなど (INTに対するINTEGERなど) を利用しているとここで少し差異が出ることになるだろう。
+方言やALIASなど (integerに対するintなど) を利用しているとここで少し差異が出ることになるだろう。
