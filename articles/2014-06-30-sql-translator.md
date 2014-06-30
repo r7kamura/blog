@@ -52,7 +52,6 @@ use SQL::Translator::Diff;
 sub convert_filename_into_schema {
   my ($filename, $database_type) = @_;
   my $translator = SQL::Translator->new;
-  $translator->debugging(1);
   $translator->parser($database_type) or die $translator->error;
   $translator->translate($filename) or die $translator->error;
   my $schema = $translator->schema;
