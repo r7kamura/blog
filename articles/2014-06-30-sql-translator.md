@@ -5,15 +5,7 @@ title: SQL Translator
 [SQL::Translator](https://github.com/dbsrgits/sql-translator) という、
 SQLの構文解析器 + これを利用した便利なツール群を読んだ。
 
-## なぜSQL::Translatorを読んだのか
-winebarrel氏が、
-[Ridgepole](https://github.com/winebarrel/ridgepole)
-というActiveRecord用のスキーマ管理ツールをつくっていたのを見た。
-ActiveRecordのDSLで記述したスキーマ定義を更新すると、自動で差分を生成してくれるというもの。
-これは便利そうだけれど、ActiveRecordを利用しているというところが気になっていたので、
-ActiveRecordのDSLの代わりにSQLを利用してこれを実現する方法を探すことにした。
-
-## SQL::Translatorの使い方とサンプル
+## SQL::Translatorの使い方
 とりあえずSQL Translatorの使い方を知らないことにはどうにもならないので、
 使い方を調べて小さな動くコードを書くことに。
 まず手元にbefore.sqlとafter.sqlという2つのSQLのファイルを用意した。
@@ -121,10 +113,13 @@ CREATE TABLEの部分を見ると、after.sqlで追加されたitemsテーブル
 今回は原文との差異も無かったが、
 方言やALIASなど (integerに対するintなど) を利用しているとここで少し差異が出ることになるだろう。
 
-## "MySQL"という文字列は何のために使われるのか
+## MySQL Adapter
 サンプルコードでは"MySQL"という文字列をSQL::Translator#parserに渡したが、
 この情報により、SQL::Translator::Parser::MySQLがParserとして、
 SQL::Translator::Producer::MySQLがProducerとして利用されることになる。
+名前から察せられる通り、Parserは入力された定義を解析するためのクラス、
+Producerは解析結果を出力するためのクラスである。
+MySQLの他にも、Oracle、SQLite、Excel、JSONなど多くの構文用のファイルが存在している。
 
 ## デバッグ用の情報を表示する
 SQL::Translator#debuggingに1を与えてデバッグしてほしい旨を伝えておくと、
@@ -211,3 +206,89 @@ startrule : statement(s) eofile {
 例えばbefore.sqlの解析結果では、
 idカラムとnameカラムを持ったusersというテーブルが1つ定義されており、
 database_name、views、proceduresは空である、という解析結果が得られている。
+
+## SQL::Translator::Diff#compute_differences
+SQL::Translator::Diffは2つのSchemaを見比べ、変更後のスキーマに存在する各テーブルについて以下の情報を収集する
+(変更前のスキーマにしか存在しないテーブルについては、テーブル名変更が行われた場合を除いては消してしまえば良い)。
+ちなみに、これらの情報は内部では単純なHashとArrayで表現されている。
+
+* constraints_to_create
+* constraints_to_drop
+* fields_to_alter
+* fields_to_create
+* fields_to_drop
+* fields_to_rename
+* indexes_to_create
+* indexes_to_drop
+* table_options
+* table_renamed_from
+* tables_to_create
+* tables_to_drop
+
+## SQL::Translator::Diff#produce_diff_sql
+compute_differencesで収集した差分データを元に、そのSQL表現を生成する。
+勿論出力すべきフォーマットは言語ごとに異なるので、ここでユーザの指定した種類のProducerを利用することになる。
+今回のサンプルではMySQLを指定しているので、SQL::Translator::Producer::MySQLが利用される。
+
+さて、SQL::Translator::Diffには以下のようなMapping用のHashが定義されており、
+これは「compute_differencesで収集したこの差分に対してはProducerのこの名前のメソッドを利用する」
+という情報を表現している。
+
+```
+{
+  constraints_to_create => "alter_create_constraint",
+  constraints_to_drop   => "alter_drop_constraint",
+  fields_to_alter       => "alter_field",
+  fields_to_create      => "add_field",
+  fields_to_drop        => "drop_field",
+  fields_to_rename      => "rename_field",
+  indexes_to_create     => "alter_create_index",
+  indexes_to_drop       => "alter_drop_index",
+  table_options         => "alter_table",
+  table_renamed_from    => "rename_table",
+}
+```
+
+例えば、table_renamed_fromという差分データに対してはrename_tableメソッドでSQLを生成することになる。
+table_renamed_fromの実装はこういう感じになる (理解しやすくするために少し加筆修正した)。
+これにより、AからBへのテーブル名変更という差分情報から
+"ALTER TABLE A RENAME TO B"というSQL表現での文字列が得られている。
+
+```
+sub rename_table {
+  my ($old_table, $new_table, $options) = @_;
+  return "ALTER TABLE $old_table_name RENAME TO $new_table_name";
+}
+```
+
+差分からSQLを生成するこの一連の処理は、
+恐らく慎重に設計されたであろう順序に従って粛々と進められ、
+結果として差分データのSQL表現を集めた配列が出来上がる。
+最後に仕上げとしてこの配列の前後にトランザクション用の処理を加え、
+改行とセミコロンで連結すれば、おめでとう、2つのスキーマの差分を表現したSQLの完成である。
+
+## まとめ
+1. SQL::Translator::Translator にスキーマが渡される
+1. SQL::Translator::Parser が Parse::RecRescent を利用してスキーマを解析する
+1. SQL::Translator::Schema の形で解析したデータが表現される
+1. SQL::Translator::Diff が2つのスキーマを比較し差分データを収集する
+1. SQL::Translator::Producer により差分データが変換され、以下のようなSQLが生成される
+
+```
+BEGIN;
+
+SET foreign_key_checks=0;
+
+CREATE TABLE `items` (
+  `id` integer(10) unsigned NOT NULL auto_increment,
+  `user_id` integer(10) unsigned NOT NULL,
+  `name` varchar(255) NULL DEFAULT NULL,
+  INDEX `user_id` (`user_id`),
+  PRIMARY KEY (`id`)
+);
+
+SET foreign_key_checks=1;
+
+
+COMMIT;
+```
