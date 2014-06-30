@@ -73,9 +73,8 @@ my $source_schema = convert_filename_into_schema($ARGV[0], $database_type);
 my $target_schema = convert_filename_into_schema($ARGV[1], $database_type);
 my $diff = SQL::Translator::Diff->new(
   source_schema => $source_schema,
-  source_db => $database_type,
   target_schema => $target_schema,
-  target_db => $database_type,
+  output_db => $database_type,
   producer_args => {
     quote_field_names => 1,
   },
