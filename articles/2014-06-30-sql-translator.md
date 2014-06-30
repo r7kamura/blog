@@ -15,7 +15,7 @@ ActiveRecordのDSLの代わりにSQLを利用してこれを実現する方法�
 
 ## SQL::Translatorの使い方とサンプル
 とりあえずSQL Translatorの使い方を知らないことにはどうにもならないので、
-使い方を調べて小さな動くコードを書く。
+使い方を調べて小さな動くコードを書くことに。
 まず手元にbefore.sqlとafter.sqlという2つのSQLのファイルを用意した。
 before.sqlでusersテーブルを作成し、更にafter.sqlでitemsテーブルを作成している。
 
@@ -120,3 +120,47 @@ dumpされたデータを読み込む場合などにはこの手法が取られ�
 CREATE TABLEの部分を見ると、after.sqlで追加されたitemsテーブルの定義がきちんと反映されていることが分かる。
 今回は原文との差異も無かったが、
 方言やALIASなど (integerに対するintなど) を利用しているとここで少し差異が出ることになるだろう。
+
+## "MySQL"という文字列は何のために使われるのか
+サンプルコードでは"MySQL"という文字列をSQL::Translator#parserに渡したが、
+この情報により、SQL::Translator::Parser::MySQLがParserとして、
+SQL::Translator::Producer::MySQLがProducerとして利用されることになる。
+
+## デバッグ用の情報を表示する
+SQL::Translator#debuggingに1を与えてデバッグしてほしい旨を伝えておくと、
+デバッグ用の情報が標準出力に流れてくるようになる。
+SQL::Translatorが内部でどういうデータ構造を扱っているのか、
+どういう処理が順に行われているのかの一片を窺い知ることができる。
+例えばサンプルスクリプトでこれを有効化してみると、次のような出力が得られる。  
+https://gist.github.com/r7kamura/6b965acaba0ec0165f46
+
+## Parse::RecRescent
+[Parse::RecRescent](http://perldoc.jp/docs/modules/Parse-RecDescent-1.94/RecDescent.pod)
+という再帰下降パーサを生成するためのライブラリがSQL::Translatorの内部で利用されている。
+BNF風の構文で定義することができるようになっていて、試しに単純な足し算を行う文法を定義してみた。
+
+```
+#!/usr/bin/env perl
+use strict;
+use warnings;
+use Parse::RecDescent;
+
+my $grammar = <<'GRAMMAR';
+expression : atom "+" expression
+    { $return = $item[1] + $item[3]; }
+expression : atom
+    { $return = $item[1]; }
+atom : /\d+/
+    { $return = $item[1]; }
+GRAMMAR
+
+# Load $grammer as a grammer definition string
+my $parser = Parse::RecDescent->new($grammar);
+
+# Then parse $text into a primitive Perl object
+my $text= "5+6";
+my $result = $parser->expression($text);
+
+# Print out the result as "5+6=11"
+print "$text=$result";
+```
