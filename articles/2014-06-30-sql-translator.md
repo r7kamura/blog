@@ -154,7 +154,7 @@ atom : /\d+/
     { $return = $item[1]; }
 GRAMMAR
 
-# Load $grammer as a grammer definition string
+# Load $grammar as a grammar definition string
 my $parser = Parse::RecDescent->new($grammar);
 
 # Then parse $text into a primitive Perl object
