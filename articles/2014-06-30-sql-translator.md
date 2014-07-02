@@ -128,8 +128,8 @@ SQL::Translatorが内部でどういうデータ構造を扱っているのか�
 例えばサンプルスクリプトでこれを有効化してみると、次のような出力が得られる。  
 https://gist.github.com/r7kamura/6b965acaba0ec0165f46
 
-## Parse::RecRescent
-[Parse::RecRescent](http://perldoc.jp/docs/modules/Parse-RecDescent-1.94/RecDescent.pod)
+## Parse::RecDescent
+[Parse::RecDescent](http://perldoc.jp/docs/modules/Parse-RecDescent-1.94/RecDescent.pod)
 という再帰下降パーサを生成するためのライブラリがSQL::Translatorの内部で利用されている。
 BNF風の構文で文法を定義でき、各所でPerlのコードを実行できるようになっている。
 試しに、正の整数の足し算を行う単純な文法を定義してみた。
