@@ -45,6 +45,7 @@ describe "This site" do
     get "/images/2014-07-10/database_name.png"
     get "/images/2014-07-10/space.png"
     get "/images/2014-07-10/sql.png"
+    get "/images/2014-07-10/uml.png"
     get "/index.html"
     get "/stylesheets/all.css"
     get "/feed.xml"
