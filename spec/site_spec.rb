@@ -32,6 +32,7 @@ describe "This site" do
     get "/2014/06/29/gitreceived.html"
     get "/2014/06/30/sql-translator.html"
     get "/2014/07/10/scheman.html"
+    get "/2014/07/16/slugbuilder.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
