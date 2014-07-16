@@ -33,7 +33,7 @@ flynn-hostクラスタに対して何かの処理をしてほしいクライア�
 はジョブというデータ構造でその旨を表現し、
 flynn-hostのリーダーにHTTP経由でジョブを送信する。
 ちなみにジョブには、
-Hostname, Memory, Env, Entrypoint, Entrypoint, Imageなど、
+Hostname, Memory, Env, Entrypoint, Imageなど、
 Dockerコンテナの用意と実行に必要な様々なデータを設定として渡すことができる。
 
 ## ホストはどのように管理されるのか
