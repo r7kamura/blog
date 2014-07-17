@@ -11,7 +11,7 @@ title: Slugbuilder
 
 ## 使われ方
 flynnでは、コンテナで実行させたいアプリがgit pushされたときにslugbuilderが実行され、
-アプリ用のslugが生成され、shelfと呼ばれるファイルサーバ経由で配布され、sluglunnerで実行される。
+アプリ用のslugが生成され、shelfと呼ばれるファイルサーバ経由で配布され、slugrunnerで実行される。
 
 1. discoverd & flynn-host を使ってコンテナを動かすホスト群のクラスタが形成される
 2. gitreceived を使ってGitサーバが git-push(1) を待ち受ける
