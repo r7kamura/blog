@@ -12,7 +12,13 @@ Graph(:G, :digraph) do
   edge "gitreceived_shelf", label: "upload slug"
 
   route :gitreceived => :controller
-  edge "gitreceived_controller", label: "notify deployment"
+  edge "gitreceived_controller", label: "release"
+
+  route :controller => :strowger
+  edge "controller_strowger", label: "add route"
+
+  route :controller => :postgres
+  edge "controller_postgres", label: "store release"
 
   route :controller => [:hostA, :hostB]
   edge "controller_hostA", label: "deploy"
@@ -24,20 +30,6 @@ Graph(:G, :digraph) do
   route :strowger => [:hostA, :hostB]
   edge "strowger_hostA", label: "proxy", color: "maroon"
   edge "strowger_hostB", label: "proxy", color: "maroon"
-
-  route(
-    :etcdS => :etcdG,
-    :etcdG => :etcdC,
-    :etcdC => :etcdB,
-    :etcdB => :etcdA,
-    :etcdA => :etcdR,
-  )
-  edge "etcdG_*", arrowhead: "none", style: "dotted"
-  edge "etcdS_*", arrowhead: "none", style: "dotted"
-  edge "etcdC_*", arrowhead: "none", style: "dotted"
-  edge "etcdB_*", arrowhead: "none", style: "dotted"
-  edge "etcdA_*", arrowhead: "none", style: "dotted"
-  edge "etcdR_*", arrowhead: "none", style: "dotted"
 
   subgraph do
     global label: "Cloud"
@@ -109,7 +101,18 @@ Graph(:G, :digraph) do
       node :discoverdR, label: "discoverd"
       node :etcdR, label: "etcd"
       route :strowger => :discoverdR
+      route :strowger => :etcdR
       route :discoverdR => :etcdR
+    end
+
+    subgraph do
+      global label: "Postgres"
+      nodes node_options
+      node :postgres, fillcolor: 3
+      node :discoverdP, label: "discoverd"
+      node :etcdP, label: "etcd"
+      route :postgres => :discoverdP
+      route :discoverdP => :etcdP
     end
   end
 
