@@ -1,0 +1,107 @@
+digraph G {
+  subgraph cluster0 {
+    subgraph cluster0 {
+      subgraph cluster0 {
+        label="Host A";
+        node[shape="box3d",colorscheme="blues8",style="filled"];
+        hostA[fillcolor="3",label="host"];
+        discoverdA[label="discoverd"];
+        etcdA[label="etcd"];
+        containerA[label="container",fillcolor="4"];
+        hostA -> containerA[color="maroon",label="deploy & proxy"];
+        hostA -> discoverdA;
+        discoverdA -> etcdA;
+      }
+      subgraph cluster1 {
+        label="Host B";
+        node[shape="box3d",colorscheme="blues8",style="filled"];
+        hostB[fillcolor="3",label="host"];
+        discoverdB[label="discoverd"];
+        etcdB[label="etcd"];
+        containerB[label="container",fillcolor="4"];
+        hostB -> containerB[color="maroon",label="deploy & proxy"];
+        hostB -> discoverdB;
+        discoverdB -> etcdB;
+      }
+      label="Cluster";
+    }
+    subgraph cluster1 {
+      label="Git server";
+      node[shape="box3d",colorscheme="blues8",style="filled"];
+      gitreceived[fillcolor="3"];
+      discoverdG[label="discoverd"];
+      etcdG[label="etcd"];
+      gitreceived -> discoverdG;
+      discoverdG -> etcdG;
+    }
+    subgraph cluster2 {
+      label="Shelf server";
+      node[shape="box3d",colorscheme="blues8",style="filled"];
+      shelf[fillcolor="3"];
+      discoverdS[label="discoverd"];
+      etcdS[label="etcd"];
+      shelf -> discoverdS;
+      discoverdS -> etcdS;
+    }
+    subgraph cluster3 {
+      label="API server";
+      node[shape="box3d",colorscheme="blues8",style="filled"];
+      controller[fillcolor="3"];
+      discoverdC[label="discoverd"];
+      etcdC[label="etcd"];
+      controller -> discoverdC;
+      discoverdC -> etcdC;
+    }
+    subgraph cluster4 {
+      label="Reverse proxy";
+      node[shape="box3d",colorscheme="blues8",style="filled"];
+      strowger[fillcolor="3"];
+      discoverdR[label="discoverd"];
+      etcdR[label="etcd"];
+      strowger -> discoverdR;
+      discoverdR -> etcdR;
+    }
+    label="Cloud";
+  }
+  subgraph cluster1 {
+    subgraph cluster0 {
+      label="Developer";
+      node[shape="box3d",colorscheme="blues8",style="filled"];
+      shell[fillcolor="2",label="shell"];
+    }
+    subgraph cluster1 {
+      label="User";
+      node[shape="box3d",colorscheme="blues8",style="filled"];
+      userAgent[fillcolor="2",label="user agent"];
+    }
+    label="Internet";
+  }
+  node[shape="box3d",colorscheme="blues8",style="filled"];
+  shell;
+  gitreceived;
+  shelf;
+  controller;
+  hostA;
+  hostB;
+  userAgent;
+  strowger;
+  etcdS;
+  etcdG;
+  etcdC;
+  etcdB;
+  etcdA;
+  etcdR;
+  shell -> gitreceived[label="git-push(1)"];
+  gitreceived -> shelf[label="upload slug"];
+  gitreceived -> controller[label="notify deployment"];
+  controller -> hostA[label="deploy"];
+  controller -> hostB[label="deploy"];
+  userAgent -> strowger[label="request",color="maroon"];
+  strowger -> hostA[label="proxy",color="maroon"];
+  strowger -> hostB[label="proxy",color="maroon"];
+  etcdS -> etcdG[arrowhead="none",style="dotted"];
+  etcdG -> etcdC[arrowhead="none",style="dotted"];
+  etcdC -> etcdB[arrowhead="none",style="dotted"];
+  etcdB -> etcdA[arrowhead="none",style="dotted"];
+  etcdA -> etcdR[arrowhead="none",style="dotted"];
+}
