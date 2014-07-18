@@ -4,74 +4,57 @@ digraph G {
       subgraph cluster0 {
         label="Host A";
         node[shape="box3d",colorscheme="blues8",style="filled"];
-        hostA[fillcolor="3",label="host"];
-        discoverdA[label="discoverd"];
-        etcdA[label="etcd"];
+        hostA[fillcolor="3",label="leader-host"];
         containerA[label="container",fillcolor="4"];
-        hostA -> containerA[color="maroon",label="deploy & proxy"];
-        hostA -> discoverdA;
-        discoverdA -> etcdA;
+        hostA -> containerA[label="run"];
       }
       subgraph cluster1 {
         label="Host B";
         node[shape="box3d",colorscheme="blues8",style="filled"];
-        hostB[fillcolor="3",label="host"];
-        discoverdB[label="discoverd"];
-        etcdB[label="etcd"];
+        hostB[fillcolor="3",label="slave-host"];
         containerB[label="container",fillcolor="4"];
-        hostB -> containerB[color="maroon",label="deploy & proxy"];
-        hostB -> discoverdB;
-        discoverdB -> etcdB;
+        hostB -> containerB[label="run"];
+      }
+      subgraph cluster2 {
+        label="Host C";
+        node[shape="box3d",colorscheme="blues8",style="filled"];
+        hostC[fillcolor="3",label="slave-host"];
+        containerC[label="container",fillcolor="4"];
+        hostC -> containerC[label="run"];
       }
       label="Cluster";
     }
     subgraph cluster1 {
-      label="Git server";
+      label="Git";
       node[shape="box3d",colorscheme="blues8",style="filled"];
       gitreceived[fillcolor="3"];
-      discoverdG[label="discoverd"];
-      etcdG[label="etcd"];
-      gitreceived -> discoverdG;
-      discoverdG -> etcdG;
     }
     subgraph cluster2 {
-      label="Shelf server";
+      label="Slug";
       node[shape="box3d",colorscheme="blues8",style="filled"];
       shelf[fillcolor="3"];
-      discoverdS[label="discoverd"];
-      etcdS[label="etcd"];
-      shelf -> discoverdS;
-      discoverdS -> etcdS;
     }
     subgraph cluster3 {
-      label="API server";
+      label="API";
       node[shape="box3d",colorscheme="blues8",style="filled"];
       controller[fillcolor="3"];
-      discoverdC[label="discoverd"];
-      etcdC[label="etcd"];
-      controller -> discoverdC;
-      discoverdC -> etcdC;
     }
     subgraph cluster4 {
-      label="Reverse proxy";
+      label="Scheduler";
       node[shape="box3d",colorscheme="blues8",style="filled"];
-      strowger[fillcolor="3"];
-      discoverdR[label="discoverd"];
-      etcdR[label="etcd"];
-      strowger -> discoverdR;
-      strowger -> etcdR;
-      discoverdR -> etcdR;
+      scheduler[fillcolor="3"];
     }
     subgraph cluster5 {
-      label="Postgres";
+      label="Proxy";
+      node[shape="box3d",colorscheme="blues8",style="filled"];
+      strowger[fillcolor="3"];
+    }
+    subgraph cluster6 {
+      label="DB";
       node[shape="box3d",colorscheme="blues8",style="filled"];
       postgres[fillcolor="3"];
-      discoverdP[label="discoverd"];
-      etcdP[label="etcd"];
-      postgres -> discoverdP;
-      discoverdP -> etcdP;
     }
-    label="Cloud";
+    label="Flynn Servers";
   }
   subgraph cluster1 {
     subgraph cluster0 {
@@ -89,21 +72,33 @@ digraph G {
   node[shape="box3d",colorscheme="blues8",style="filled"];
   shell;
   gitreceived;
-  shelf;
   controller;
+  shelf;
   strowger;
   postgres;
+  scheduler;
   hostA;
   hostB;
+  hostC;
   userAgent;
+  containerA;
+  containerB;
+  containerC;
   shell -> gitreceived[label="git-push(1)"];
-  gitreceived -> shelf[label="upload slug"];
+  shell -> controller[label="request"];
+  gitreceived -> shelf[label="upload"];
   gitreceived -> controller[label="release"];
-  controller -> strowger[label="add route"];
-  controller -> postgres[label="store release"];
-  controller -> hostA[label="deploy"];
-  controller -> hostB[label="deploy"];
+  controller -> strowger[label="route"];
+  controller -> postgres[label="update"];
+  scheduler -> postgres[label="listen"];
+  scheduler -> hostA[label="job"];
+  hostA -> hostB[label="job"];
+  hostA -> hostC[label="job"];
   userAgent -> strowger[label="request",color="maroon"];
-  strowger -> hostA[label="proxy",color="maroon"];
-  strowger -> hostB[label="proxy",color="maroon"];
+  strowger -> containerA[label="proxy",color="maroon"];
+  strowger -> containerB[label="proxy",color="maroon"];
+  strowger -> containerC[label="proxy",color="maroon"];
+  hostA -> shelf[label="download"];
+  hostB -> shelf[label="download"];
+  hostC -> shelf[label="download"];
 }

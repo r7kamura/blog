@@ -8,31 +8,48 @@ Graph(:G, :digraph) do
   route :shell => :gitreceived
   edge "shell_gitreceived", label: "git-push(1)"
 
+  route :shell => :controller
+  edge "shell_controller", label: "request"
+
   route :gitreceived => :shelf
-  edge "gitreceived_shelf", label: "upload slug"
+  edge "gitreceived_shelf", label: "upload"
 
   route :gitreceived => :controller
   edge "gitreceived_controller", label: "release"
 
   route :controller => :strowger
-  edge "controller_strowger", label: "add route"
+  edge "controller_strowger", label: "route"
 
   route :controller => :postgres
-  edge "controller_postgres", label: "store release"
+  edge "controller_postgres", label: "update"
 
-  route :controller => [:hostA, :hostB]
-  edge "controller_hostA", label: "deploy"
-  edge "controller_hostB", label: "deploy"
+  route :scheduler => :postgres
+  edge "scheduler_postgres", label: "listen"
+
+  route :scheduler => :hostA
+  edge "scheduler_hostA", label: "job"
+
+  route :hostA => [:hostB, :hostC]
+  edge "hostA_hostB", label: "job"
+  edge "hostA_hostC", label: "job"
 
   route :userAgent => :strowger
   edge "userAgent_strowger", label: "request", color: "maroon"
 
-  route :strowger => [:hostA, :hostB]
-  edge "strowger_hostA", label: "proxy", color: "maroon"
-  edge "strowger_hostB", label: "proxy", color: "maroon"
+  route :strowger => [:containerA, :containerB, :containerC]
+  edge "strowger_containerA", label: "proxy", color: "maroon"
+  edge "strowger_containerB", label: "proxy", color: "maroon"
+  edge "strowger_containerC", label: "proxy", color: "maroon"
+
+  route :hostA => :shelf
+  route :hostB => :shelf
+  route :hostC => :shelf
+  edge "hostA_shelf", label: "download"
+  edge "hostB_shelf", label: "download"
+  edge "hostC_shelf", label: "download"
 
   subgraph do
-    global label: "Cloud"
+    global label: "Flynn Servers"
 
     subgraph do
       global label: "Cluster"
@@ -40,79 +57,65 @@ Graph(:G, :digraph) do
       subgraph do
         global label: "Host A"
         nodes node_options
-        node :hostA, fillcolor: 3, label: "host"
-        node :discoverdA, label: "discoverd"
-        node :etcdA, label: "etcd"
+        node :hostA, fillcolor: 3, label: "leader-host"
         node :containerA, label: "container", fillcolor: 4
         route :hostA => :containerA
-        route :hostA => :discoverdA
-        route :discoverdA => :etcdA
-        edge "hostA_containerA", color: "maroon", label: "deploy & proxy"
+        edge "hostA_containerA", label: "run"
       end
 
       subgraph do
         global label: "Host B"
         nodes node_options
-        node :hostB, fillcolor: 3, label: "host"
-        node :discoverdB, label: "discoverd"
-        node :etcdB, label: "etcd"
+        node :hostB, fillcolor: 3, label: "slave-host"
         node :containerB, label: "container", fillcolor: 4
         route :hostB => :containerB
-        route :hostB => :discoverdB
-        route :discoverdB => :etcdB
-        edge "hostB_containerB", color: "maroon", label: "deploy & proxy"
+        edge "hostB_containerB", label: "run"
+      end
+
+      subgraph do
+        global label: "Host C"
+        nodes node_options
+        node :hostC, fillcolor: 3, label: "slave-host"
+        node :containerC, label: "container", fillcolor: 4
+        route :hostC => :containerC
+        edge "hostC_containerC", label: "run"
       end
     end
 
     subgraph do
-      global label: "Git server"
+      global label: "Git"
       nodes node_options
       node :gitreceived, fillcolor: 3
-      node :discoverdG, label: "discoverd"
-      node :etcdG, label: "etcd"
-      route :gitreceived => :discoverdG
-      route :discoverdG => :etcdG
     end
 
     subgraph do
-      global label: "Shelf server"
+      global label: "Slug"
       nodes node_options
       node :shelf, fillcolor: 3
-      node :discoverdS, label: "discoverd"
-      node :etcdS, label: "etcd"
-      route :shelf => :discoverdS
-      route :discoverdS => :etcdS
     end
 
     subgraph do
-      global label: "API server"
+      global label: "API"
       nodes node_options
       node :controller, fillcolor: 3
-      node :discoverdC, label: "discoverd"
-      node :etcdC, label: "etcd"
-      route :controller => :discoverdC
-      route :discoverdC => :etcdC
     end
 
     subgraph do
-      global label: "Reverse proxy"
+      global label: "Scheduler"
+      nodes node_options
+      node :scheduler, fillcolor: 3
+    end
+
+    subgraph do
+      global label: "Proxy"
       nodes node_options
       node :strowger, fillcolor: 3
-      node :discoverdR, label: "discoverd"
-      node :etcdR, label: "etcd"
-      route :strowger => :discoverdR
-      route :strowger => :etcdR
-      route :discoverdR => :etcdR
     end
 
     subgraph do
-      global label: "Postgres"
+      global label: "DB"
       nodes node_options
       node :postgres, fillcolor: 3
-      node :discoverdP, label: "discoverd"
-      node :etcdP, label: "etcd"
-      route :postgres => :discoverdP
-      route :discoverdP => :etcdP
     end
   end
 
