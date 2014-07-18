@@ -94,3 +94,69 @@ GitreceivedはGitreceive(末尾のdが無い)の後継機として開発され�
 GitreceivedがFlynn用に、GitreceiveがDokku用にそれぞれ開発されている。
 Gitreceiveについては下記の記事をどうぞ。  
 [Gitreceive - r7km/s](http://r7kamura.github.io/2014/02/27/gitreceive.html)
+
+## sysexits(3)
+gitreceivedのコードの中に、終了コード64と共に終了する箇所がある
+([★](https://github.com/flynn/gitreceived/blob/d828619bceb1937a5daad1dceea6320e9d3b3d4f/gitreceived.go#L51))。
+例えばBSDでは終了コードを標準化しようとしており、
+終了コード64はsysexits(3)でEX_USAGEとして定義されている。
+これはコマンドの使い方が間違っていることを示唆するためのものと解釈できる。
+
+```
+EX_USAGE (64)
+   The command was used incorrectly, e.g., with the wrong number of arguments,
+   a bad flag, a bad syntax in a parameter, or whatever.
+
+── sysexits(3)より引用
+```
+
+## flynn/go-shlex
+go-shlexはシェルスクリプト用のパーサで、
+これを使えばシェルスクリプト上の引用符やエスケープなどを適切に扱える。
+例えばone "two three" fourがコマンドライン引数として与えられたとき、
+["one", "two three", "four"]の三要素で構成されているということを認識できる。
+
+```
+shlex.Split('one "two three" four')
+```
+
+## go.crypto/ssh
+[code.google.com/p/go.crypto/ssh](https://godoc.org/code.google.com/p/go.crypto/ssh)
+がSSHサーバの機能を提供している。
+SSHサーバとしてリクエストを待ち受ける機能のほか、
+公開鍵認証時にフックできる仕組みを提供しており、
+gitreceivedはこのフックを利用して任意のコマンドを利用した認証機能を実現している。
+
+## SSH channel type
+SSHはクライアントとサーバ間で複数のチャンネルを同時に利用できる。
+これは多重チャンネルと呼ばれる概念であり、
+SSHの仕様ではコネクションプロトコルという名前のプロトコルでこの仕様が定義されている。
+
+```
+client <------#0------> server
+client <------#1------> server
+client <------#2------> server
+```
+
+SSHの仕様はRFC4250からRFC4256の7つのRFCで定義されているが、
+このうちコネクションプロトコルはRFC4254で定義されている。
+つまりチャンネルの概念はRFC4254で定義されている。
+SSHのチャンネルには以下の4つの種類〈チャンネルタイプ〉が定義されている。
+
+* direct-tcpip
+* forwarded-tcpip
+* x11
+* session
+
+direct-tcpipは外向きのTCPフォワーディング、
+forwarded-tcpipは内向きのTCPフォワーディング、
+x11はX11クライアントの接続、
+sessionはプログラムのリモート実行を表す。
+日常的に利用されるほとんどのSSH接続の種類はsessionであると言っても良い。
+例えば、RubyのNet::SSHではx11のチャンネルタイプをサポートしていない。
+gitreceivedが扱うチャンネルタイプはsessionだけであり、
+これ以外の種類のチャンネル接続要求があった場合には拒否するようになっている。
+
+* [Net::SSH Manual :: Chapter 3: Channels](http://net-ssh.github.io/ssh/v1/chapter-3.html)
+* [RFC 4254 - The Secure Shell (SSH) Connection Protocol](http://tools.ietf.org/html/rfc4254)
+* [SSH サーバを作る(その 22) コネクションプロトコル - Going My Ruby Way - Rubyist](http://rubyist.g.hatena.ne.jp/lnznt/20110911/1315735390)
