@@ -49,6 +49,7 @@ describe "This site" do
     get "/images/2014-07-10/sql.png"
     get "/images/2014-07-10/uml.png"
     get "/images/2014-07-17/flynn-overview.png"
+    get "/images/2014-07-20/golang-reverse-proxy"
     get "/index.html"
     get "/stylesheets/all.css"
     get "/feed.xml"
