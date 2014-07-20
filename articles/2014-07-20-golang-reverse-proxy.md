@@ -94,13 +94,13 @@ import(
 func main() {
 	sourceAddress := ":3000"
 
-	hosts := []string{
-		":9292",
+	ports := []string{
 		":9293",
+		":9292",
 	}
-	hostRing := ring.New(len(hosts))
-	for _, host := range hosts {
-		url, _ := url.Parse("http://127.0.0.1" + host)
+	hostRing := ring.New(len(ports))
+	for _, port := range ports {
+		url, _ := url.Parse("http://127.0.0.1" + port)
 		hostRing.Value = url
 		hostRing = hostRing.Next()
 	}
