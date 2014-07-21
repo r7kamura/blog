@@ -192,4 +192,23 @@ func main() {
 net/http/httputilのhttputil.ReverseProxyは、
 委譲先を決定するためのロジックをDirectorという関数で外部から注入できるが、
 Directorでは受け取ったリクエストの情報を参照できない。
-そのため、これを行えるリバースプロキシ用の実装を自前で行う必要がある。
+そのため、これを行えるリバースプロキシ用の実装をhttp.Transport等を利用して自前で行う必要がある。
+
+## http.Transport型
+標準ライブラリnet/httpで定義されている、http.Transport型。
+低レベルなHTTPクライアントの実装であり、例えばnet/http/httputilのhttputil.ReverseProxyから利用されている。
+通常、HTTPクライアントが使いたい場合はより高級なhttp.Clientを使うのが一般的である。
+クッキーやリダイレクトといった高級な機能を利用する場合はそちらを利用するのが妥当。
+
+## 標準ライブラリのパス
+HomebrewでGoをインストールした場合、例えばnet/httpのソースコードは
+/usr/local/Cellar/go/1.2.1/libexec/src/pkg/net/http
+というパスに配置されている。
+
+## http.Transport#Roundtrip
+http.Transport型はhttp.Roundtripインターフェースの実装であり、
+http.Roundtripの持つべきメソッドRoundTrip(*http.Request)を実装している。
+http.TransportのRoundtripメソッドは、
+引数で受け取ったHTTPリクエストのURLとHostヘッダを参照してリクエストを送信する。
+特筆すべき点として、keepaliveが有効化されていた場合に同じTCP接続を使い回せるようになっており、
+またプロキシを設定できる機能を備えている。
