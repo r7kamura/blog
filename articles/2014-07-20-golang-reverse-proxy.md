@@ -125,3 +125,71 @@ func main() {
 これで:3000から:9292と:9393に対して交互にHTTPリクエストを委譲する簡単なリバースプロキシが出来た。
 Directorはgoroutineを利用して並列に実行される可能性があるため、
 sync.Mutexを利用して循環リストへのアクセスを単純にロックしている。
+
+## etcdを使う
+上例ではルーティング情報 (=どのホストにHTTPリクエストを委譲するか) はコード内に記述されていた。
+プログラムの外部から動的にルーティング情報を変更するため、etcdというKey-Value Storeにルーティング情報を保存する。
+git-clone(1) で手元にダウンロードしてきた後、./buildというシェルスクリプトを実行すれば
+./bin/etcd にetcdの実行ファイルがコンパイルされる。
+
+```
+$ git clone https://github.com/coreos/etcd
+$ cd etcd
+$ ./build
+$ ./bin/etcd
+```
+
+./bin/etcd を実行するとサービスが起動する。
+デフォルトでは127.0.0.1:4001でクライアント・サーバ間の通信のためのAPIが提供され、
+同時に127.0.0.1:7001でサーバ間の通信のためのAPIが提供される
+(Golang製のサービスでは並列化の実現が容易であるため、このように複数のサービスを1つのプログラムで提供することが多い)。
+
+簡単なKey-Value Storeとして利用してみる。
+以下の例ではkey1に適当な値を格納したあと、その値を取得している。
+wait=trueクエリパラメータを付けると、Long Pollingを利用して該当するキーに変更があるまで応答を待ち続ける。
+この機能は、例えばクラスタ内の複数のノードが同じ設定を保ち続けるという処理を実現するのに利用できる。
+
+```
+$ curl :4001/v2/keys/key1 -X PUT -d value="value1"
+$ curl :4001/v2/keys/key1
+$ curl :4001/v2/keys/key1?wait=true
+```
+
+下記はGolang用のクライアントライブラリgo-etcdを利用する例。
+etcdは値をファイルシステムのディレクトリ構造のようなツリー構造で表現するため、
+NodeやRescursiveと言った表現が登場する。
+
+```
+package main
+
+import(
+	"fmt"
+	"github.com/coreos/go-etcd/etcd"
+)
+
+func main() {
+	endpoints := []string{"http://127.0.0.1:4001"}
+	client := etcd.NewClient(endpoints)
+
+	// Set key1 with value1
+	response, _ := client.Set("key1", "value1", 0)
+	fmt.Println(response.Node.Value)
+
+	// Get key1 with no-sort and no-recursive options
+	response, _ = client.Get("key1", false, false)
+	fmt.Println(response.Node.Value)
+}
+```
+
+## ルーティング情報をetcdに保存する
+受け取ったHTTPリクエストのHostヘッダの値を元に、
+予めetcdに設定された委譲先にリクエストを委譲するリバースプロキシをつくる。
+1つのHostヘッダの値に対して複数の委譲先が存在する(つまりロードバランサとしても運用する)
+可能性があるため、今回は /hosts/:host/:endpoint というキーを利用することにする。
+:hostにはHostヘッダの値 (例: blog.example.com)、:endpointには委譲先のアドレス (例: 123.45.67.89:3000) が入る。
+キー名で全ての必要なデータが表現できるため値は利用しない。
+
+net/http/httputilのhttputil.ReverseProxyは、
+委譲先を決定するためのロジックをDirectorという関数で外部から注入できるが、
+Directorでは受け取ったリクエストの情報を参照できない。
+そのため、これを行えるリバースプロキシ用の実装を自前で行う必要がある。
