@@ -126,6 +126,40 @@ func main() {
 Directorはgoroutineを利用して並列に実行される可能性があるため、
 sync.Mutexを利用して循環リストへのアクセスを単純にロックしている。
 
+## Hostベースのリバースプロキシを実装する
+net/http/httputilのhttputil.ReverseProxyは、
+委譲先を決定するためのロジックをDirectorという関数で外部から注入できるが、
+Directorでは受け取ったリクエストの情報を参照できない。
+そのため、これを行えるリバースプロキシ用の実装をhttp.Transport等を利用して自前で行う必要がある。
+
+今回は [r7kamura/entoverse](https://github.com/r7kamura/entoverse) を使う。
+entoverseはHostベースのリバースプロキシを生成するためのライブラリであり、
+受け取ったHostを委譲先のHostに変換するロジックを与えるとリバースプロキシが出来上がるようになっている。
+以下の例は最も単純な例の一つで、3000番ポートで受け取ったHTTPリクエストを4000番ポートに委譲する。
+
+```
+package main
+
+import(
+    "net/http"
+    "github.com/r7kamura/entoverse"
+)
+
+func main() {
+    // Please implement your host converter function.
+    // This example always delegates HTTP requests to localhost:4000.
+    hostConverter := func(originalHost string) string {
+        return "localhost:4000"
+    }
+
+    // Creates an entoverse.Proxy object as an HTTP handler.
+    proxy := entoverse.NewProxy(hostConverter)
+
+    // Runs a reverse-proxy server on http://localhost:3000/
+    http.ListenAndServe("localhost:3000", proxy)
+}
+```
+
 ## etcdを使う
 上例ではルーティング情報 (=どのホストにHTTPリクエストを委譲するか) はコード内に記述されていた。
 プログラムの外部から動的にルーティング情報を変更するため、etcdというKey-Value Storeにルーティング情報を保存する。
@@ -185,30 +219,58 @@ func main() {
 受け取ったHTTPリクエストのHostヘッダの値を元に、
 予めetcdに設定された委譲先にリクエストを委譲するリバースプロキシをつくる。
 1つのHostヘッダの値に対して複数の委譲先が存在する(つまりロードバランサとしても運用する)
-可能性があるため、今回は /hosts/:host/:endpoint というキーを利用することにする。
-:hostにはHostヘッダの値 (例: blog.example.com)、:endpointには委譲先のアドレス (例: 123.45.67.89:3000) が入る。
+可能性があるため、今回は /hosts/:host/:upstream というキーを利用することにする。
+:hostにはHostヘッダの値 (例: blog.example.com)、:upstreamには委譲先のアドレス (例: 123.45.67.89:3000) が入る。
 キー名で全ての必要なデータが表現できるため値は利用しない。
 
-net/http/httputilのhttputil.ReverseProxyは、
-委譲先を決定するためのロジックをDirectorという関数で外部から注入できるが、
-Directorでは受け取ったリクエストの情報を参照できない。
-そのため、これを行えるリバースプロキシ用の実装をhttp.Transport等を利用して自前で行う必要がある。
+```
+package main
 
-## http.Transport型
-標準ライブラリnet/httpで定義されている、http.Transport型。
-低レベルなHTTPクライアントの実装であり、例えばnet/http/httputilのhttputil.ReverseProxyから利用されている。
-通常、HTTPクライアントが使いたい場合はより高級なhttp.Clientを使うのが一般的である。
-クッキーやリダイレクトといった高級な機能を利用する場合はそちらを利用するのが妥当。
+import(
+	"math/rand"
+	"net/http"
+	"strings"
 
-## 標準ライブラリのパス
-HomebrewでGoをインストールした場合、例えばnet/httpのソースコードは
-/usr/local/Cellar/go/1.2.1/libexec/src/pkg/net/http
-というパスに配置されている。
+	"github.com/coreos/go-etcd/etcd"
+	"github.com/r7kamura/entoverse"
+)
 
-## http.Transport#Roundtrip
-http.Transport型はhttp.Roundtripインターフェースの実装であり、
-http.Roundtripの持つべきメソッドRoundTrip(*http.Request)を実装している。
-http.TransportのRoundtripメソッドは、
-引数で受け取ったHTTPリクエストのURLとHostヘッダを参照してリクエストを送信する。
-特筆すべき点として、keepaliveが有効化されていた場合に同じTCP接続を使い回せるようになっており、
-またプロキシを設定できる機能を備えている。
+func main() {
+	// Set-up a connection to an etcd server.
+	upstreams := []string{"http://127.0.0.1:4001"}
+	client := etcd.NewClient(upstreams)
+
+	// Loads all hosts data from etcd.
+	hosts := make(map[string][]string)
+	response, _ := client.Get("/hosts", false, true)
+	for _, hostNode := range response.Node.Nodes {
+		host := strings.Split(hostNode.Key, "/")[2]
+		hosts[host] = []string{}
+		for _, upstreamNode := range hostNode.Nodes {
+			upstream := strings.Split(upstreamNode.Key, "/")[3]
+			hosts[host] = append(hosts[host], upstream)
+		}
+	}
+
+	// Returns one of registered upstream hosts randomly
+	hostConverter := func(originalHost string) string {
+		upstreams := hosts[originalHost]
+		if len(upstreams) == 0 {
+			return ""
+		}
+		return upstreams[rand.Intn(len(upstreams))]
+	}
+
+	// Runs a reverse-proxy server on http://localhost:3000/
+	proxy := entoverse.NewProxy(hostConverter)
+	http.ListenAndServe("localhost:3000", proxy)
+}
+```
+
+試しに /hosts/blog.example.com/127.0.0.1:4000 に適当な値 (何でも良い) を入れておくと、
+curl :3000 -H "Host: blog.example.com" にアクセスしたときに:4000にリクエストを委譲するようになる。
+
+## 複数ホストで動くリバースプロキシへ
+起動時にのみetcdから値を読み取っているが、
+etcdの変更を監視するためのGoroutineを別途立てておけば動的にルーティングが切り替えれるようになる。
+また複数のetcdでクラスタを構成することで、リバースプロキシも複数ホストで動作させられるようになるだろう。
