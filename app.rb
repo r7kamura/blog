@@ -39,7 +39,7 @@ class App < Padrino::Application
   end
 
   get "/feed.xml" do
-    builder :feed, locals: { articles: articles }
+    builder :feed, locals: { articles: articles }, layout: false
   end
 
   error do |exception|
