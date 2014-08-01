@@ -35,6 +35,7 @@ describe "This site" do
     get "/2014/07/16/slugbuilder.html"
     get "/2014/07/17/flynn-overview.html"
     get "/2014/07/20/golang-reverse-proxy.html"
+    get "/2014/08/01/atom-git-integration.html"
     get "/images/favicon.ico"
     get "/images/r7kamura.png"
     get "/images/2013-11-10-hello-world/build-pipeline.png"
