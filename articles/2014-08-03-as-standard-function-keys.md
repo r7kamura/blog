@@ -19,13 +19,17 @@ defaults write -g com.apple.keyboard.fnState -bool true
 ```
 
 ## AppleScirpt
-AppleScriptを利用する方法は次の通り。
 ファンクションキーの設定を反映させる方法は二通りしか判明していない。
 再ログインするか、もしくはGUI経由で設定を変更するかのどちらかだ。
 AppleScriptを使った場合はGUI経由での設定変更と同等に扱われるため、設定が即時反映される。
 
 AppleScriptからシステム環境設定にアクセスする場合、
 これを実行するアプリケーションがアクセシビリティの項目で許可されている必要がある。
+/Library/Application Support/com.apple.TCC/TCC.db
+のSQLite3のDBに対して変更を加えればこれをプログラムから許可できる。
+accessという名前のテーブルに許可対象のアプリケーションを表すレコードが格納される形式になっている。
+なお、アプリケーションごとのアクセシビリティ管理機構が導入されたのはMarvericksからだ。
+
 以下の方法では、SQLite3のインターフェース経由でアクセシビリティに変更を加えたあと、
 AppleScriptを利用してファンクションキーの設定を変更する。
 
