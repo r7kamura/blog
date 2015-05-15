@@ -29,11 +29,11 @@ class App < Padrino::Application
     scss :all
   end
 
-  get "/index.html" do
+  get "/" do
     slim :index, locals: { articles: articles }
   end
 
-  get "/:year/:month/:day/:title.html" do
+  get "/:year/:month/:day/:title" do
     path = "#{articles_path}/#{params[:year]}-#{params[:month]}-#{params[:day]}-#{params[:title]}.md"
     slim :show, locals: { article: Article.new(path) }
   end
@@ -72,7 +72,7 @@ class App < Padrino::Application
     end
 
     def url
-      date.strftime("/%Y/%m/%d/#{title}.html")
+      date.strftime("/%Y/%m/%d/#{title}")
     end
 
     def front_matter
